@@ -20,7 +20,6 @@ All you can install via `conda` or `pip`.
 
 ----
 
-
 > # Data processing  
 In the transfer learning field, the divergence between source and target data is the essence of this kind of task. Our jobs are trying to study an effective methodology of transfer learning in the biomedical field, leveraging this fascinating technique to empower  infection detecting algorithms via electronic medical records (EHRs).   
 Because source and target data are recorded/presented differently, the data processing is a fundational and essential step of this project
