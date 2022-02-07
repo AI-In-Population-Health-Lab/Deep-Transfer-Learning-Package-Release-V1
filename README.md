@@ -38,48 +38,6 @@ After this recalibration of the data, we use all of the source data for model tr
 
 
 
-> # Baseline Model   
-Based on the dataset used to train the model, we define three baseline models. The corresponding codes for each baseline model are shown as below:   
- 
-+ `learnSourceModel.py` and `learnSourceModel_prob.py`--using the source training dataset to train a model;
-+ `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
-+ `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
-
-In our code, we have predefined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through command line.
-
-By default setting, directly run the following codes through the command line:
-
-1. **BL_source**: using the source training dataset to train a model
-, and obtaining a trained model under the source setting;
-	```pyrhon
-	python learnSourceModel.py
-	```
-	Run `learnSourceModel_prob.py` to get `AUROC` values of BL_source model under the setting.
-	```pyrhon
-	python learnSourceModel_prob.py
-	```
-
-
-2. **BL_target**: using the target training dataset to train a model, and obtaining a trained model under the target setting;
-	```pyrhon
-	python learnTargetModel.py
-	```
-	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting.  
-	```pyrhon
-	python learnTargetModel_prob.py
-	```
-
-3. **BL_combined**: using both the source and target training datasets to train a model, and obtaining a trained model under the combined setting 
-	```pyrhon
-	python  learnSourceTargetModel.py
-	```
-	Run `learnSourceTargetModel_prob.py` to get `AUROC` values of BL_combined model under the setting.
-	```pyrhon
-	python learnSourceTargetModel_prob.py
-	```
-
-&nbsp;
-&nbsp;
 
 > # Data-based Deep Transfer Learning (DDTL) 
 **In DDTL section,  we apply the Domain Adversarial Neural Networks[(DANN)](https://arxiv.org/abs/1505.07818)**.  
@@ -174,6 +132,49 @@ python model-based-TL-TuneAllLayers.py
 
 
 &nbsp;
+
+
+> # Baseline Model   
+Based on the dataset used to train the model, we define three baseline models. The corresponding codes for each baseline model are shown as below:   
+ 
++ `learnSourceModel.py` and `learnSourceModel_prob.py`--using the source training dataset to train a model;
++ `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
++ `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
+
+In our code, we have predefined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through command line.
+
+By default setting, directly run the following codes through the command line:
+
+1. **BL_source**: using the source training dataset to train a model
+, and obtaining a trained model under the source setting;
+	```pyrhon
+	python learnSourceModel.py
+	```
+	Run `learnSourceModel_prob.py` to get `AUROC` values of BL_source model under the setting.
+	```pyrhon
+	python learnSourceModel_prob.py
+	```
+
+
+2. **BL_target**: using the target training dataset to train a model, and obtaining a trained model under the target setting;
+	```pyrhon
+	python learnTargetModel.py
+	```
+	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting.  
+	```pyrhon
+	python learnTargetModel_prob.py
+	```
+
+3. **BL_combined**: using both the source and target training datasets to train a model, and obtaining a trained model under the combined setting 
+	```pyrhon
+	python  learnSourceTargetModel.py
+	```
+	Run `learnSourceTargetModel_prob.py` to get `AUROC` values of BL_combined model under the setting.
+	```pyrhon
+	python learnSourceTargetModel_prob.py
+	```
+
+
 &nbsp;
 
 
