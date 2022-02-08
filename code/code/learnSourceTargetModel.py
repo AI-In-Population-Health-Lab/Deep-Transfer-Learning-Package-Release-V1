@@ -13,31 +13,27 @@ from torch.optim import SGD
 import torch.utils.data
 from torch.utils.data import DataLoader
 import torch.utils.data.distributed
-import torchvision.transforms as transforms
 import torch.nn.functional as F
 
 from collections import Counter
-from sklearn.metrics import roc_auc_score
-
-import pandas as pd
-
-sys.path.append('.')
-from feedforward import BackboneClassifierNN
 from feedforward import BackboneClassifierNN_M4
 from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
-from tools.transforms import ResizeImage
-from tools.lr_scheduler import StepwiseLR
-from data_processing import prepare_datasets, prepare_datasets_stratify, prepare_datasets_stratify_combineSourceTarget, prepare_datasets_combineSourceTarget
 
-from dataset import Dataset
+from tools.lr_scheduler import StepwiseLR
+from data_processing import  prepare_datasets_combineSourceTarget
+
+sys.path.append('.')
+
+
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/combine_model/'
+source_train_fold_loc = '../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../results/accuracy/'
+learned_model_fold_loc ='../results/learned_model/combine_model/'
 
 
 def main(args: argparse.Namespace):
@@ -104,11 +100,10 @@ def main(args: argparse.Namespace):
         acc1 = validate(val_loader, classifier, args)
         # remember best acc@1 and save checkpoint
         if acc1 > best_acc1:
-            best_classifier = copy.deepcopy(classifier.state_dict())
+
             torch.save(classifier.state_dict(), learned_model_path) # newly added to save the best models
             best_acc1 = acc1
     if best_acc1==0 :
-        best_classifier = copy.deepcopy(classifier.state_dict())
         torch.save(classifier.state_dict(), learned_model_path)
 
     print("best_validation_acc1 = {:3.1f}".format(best_acc1))
@@ -247,12 +242,12 @@ if __name__ == '__main__':
     #seed_paths = [14942, 43277, 79280, 8463, 12650]
     seed_paths = [79280, 8463, 12650]
 
-    source_train_paths = ['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
+    # source_train_paths = ['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
 
-    # source_train_paths = ['findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+    source_train_paths = ['findings_final_0814-portion1ita21round14_seed-358819036_size10000',
+                          'findings_final_0814-portion1ita21round14_seed174506763_size10000',
+                          'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
 
     target_train_paths = ['findings_final_0814_seed-1331694080_size100']
 

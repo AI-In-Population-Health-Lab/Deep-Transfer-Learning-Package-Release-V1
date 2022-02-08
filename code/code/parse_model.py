@@ -64,17 +64,19 @@ def parse(filename):
 
     # save probability tables with pickle
     prob_table_pk_filename = get_prob_table_pk_filename(filename)
+    print(prob_table_pk_filename)
     os.makedirs(os.path.dirname(prob_table_pk_filename), exist_ok=True)
     with open(prob_table_pk_filename, "wb") as handle:
         pk.dump(variable_to_table, handle)
 
 def parse_all(dirname):
+    #print(os.listdir(dirname))
     for filename in os.listdir(dirname):
         if (filename.endswith(".bif")):
             parse(os.path.join(dirname, filename))
 
 if __name__ == "__main__":
     # parse("data/learned_source_model/findings_final_0814.bif")
-    fileLoc = "/Users/yeye/Dropbox/000KGrant/achievement_K99/cmu_course/intermediate_deep_learning/project-sharing-with-Andrew/Ye-Ye-Andrew-Gu-Final-report-code-data-results/Transfer-Learning/data/"
-    parse_all(fileLoc + "other_source_model/")
+    fileLoc = "../data/"
+    parse_all(fileLoc + "source_model/") #other_source_model/
     #parse_all(fileLoc + "learned_target_model/")

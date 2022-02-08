@@ -4,7 +4,6 @@ import warnings
 import sys
 import argparse
 import copy
-
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -13,28 +12,25 @@ from torch.optim import SGD
 import torch.utils.data
 from torch.utils.data import DataLoader
 import torch.utils.data.distributed
-import torchvision.transforms as transforms
 import torch.nn.functional as F
 from collections import Counter
+from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
+from tools.lr_scheduler import StepwiseLR
+from data_processing import prepare_datasets_returnSourceVal,prepare_datasets_stratify_returnSourceVal
+from feedforward import BackboneClassifierNN_M4
 
-import pandas as pd
+
 
 sys.path.append('.')
-from feedforward import BackboneClassifierNN
-from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
-from tools.transforms import ResizeImage
-from tools.lr_scheduler import StepwiseLR
-from data_processing import prepare_datasets,prepare_datasets_returnSourceVal,prepare_datasets_stratify_returnSourceVal
-from feedforward import BackboneClassifierNN_M4
-from dataset import Dataset
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/learned_source_model/'
+source_train_fold_loc = '../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../results/accuracy/'
+learned_model_fold_loc ='../results/learned_model/learned_source_model/'
 
 
 def main(args: argparse.Namespace):
@@ -242,12 +238,12 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
-    # source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-    #                       'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-    #                       'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-    #                       'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-    #                       'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
+                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
 
 
 
@@ -267,12 +263,12 @@ if __name__ == '__main__':
     #                       'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
     #                       'findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
 
-    #source_train_paths = ['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
+    source_train_paths = ['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
 
-    source_train_paths = ['findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-                            'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-                            'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-                            'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+    # source_train_paths = ['findings_final_0814-portion1ita21round14_seed-358819036_size10000',
+    #                         'findings_final_0814-portion1ita21round14_seed174506763_size10000',
+    #                         'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
+    #                         'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
 
     seed_paths = [14942, 43277, 79280, 8463, 12650]
 
