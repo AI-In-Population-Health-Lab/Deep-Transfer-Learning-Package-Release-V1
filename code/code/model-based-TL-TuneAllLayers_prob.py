@@ -34,12 +34,12 @@ from sklearn import metrics
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/learned_source_model/'
-prob_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/auc/'
+source_train_fold_loc = '../../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../../results/accuracy/'
+learned_model_fold_loc ='../../results/learned_model/learned_source_model/'
+prob_fold_loc ='../../results/auc/'
 
 
 def main(args: argparse.Namespace):
@@ -243,28 +243,58 @@ if __name__ == '__main__':
     args = parser.parse_args()
     print(args)
 
-    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                      'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                      'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                      'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                      'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                      'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
-                      # 'findings_final_0814-portion1ita27round9_seed273823007_size10000',
+    # source_train_paths = ['findings_final_0814_seed1591536269_size10000',
+    #                   'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+    #                   'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+    #                   'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
+    #                   'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
+    #                   'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+    #                   # 'findings_final_0814-portion1ita27round9_seed273823007_size10000',
                       # 'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
                       # 'findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
 
-    target_train_paths = ['findings_final_0814_seed2132231585_size10000',
-                          'findings_final_0814_seed-190708218_size5000',
-                          'findings_final_0814_seed-1872107095_size4000',
-                          'findings_final_0814_seed678668699_size3000',
-                          'findings_final_0814_seed1033059257_size2000',
-                          'findings_final_0814_seed238506806_size1000',
-                          'findings_final_0814_seed-972126700_size500',
+    # target_train_paths = ['findings_final_0814_seed2132231585_size10000',
+    #                       'findings_final_0814_seed-190708218_size5000',
+    #                       'findings_final_0814_seed-1872107095_size4000',
+    #                       'findings_final_0814_seed678668699_size3000',
+    #                       'findings_final_0814_seed1033059257_size2000',
+    #                       'findings_final_0814_seed238506806_size1000',
+    #                       'findings_final_0814_seed-972126700_size500',
+    #                       'findings_final_0814_seed-1133351443_size400',
+    #                       'findings_final_0814_seed-1227021050_size300',
+    #                       'findings_final_0814_seed756906437_size200',
+    #                       'findings_final_0814_seed-1331694080_size100',
+    #                       'findings_final_0814_seed-53154026_size50']
+    
+
+    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
+                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+
+    # source_train_paths = ['findings_final_0814-portion1ita27round9_seed273823007_size10000',
+    #                       'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
+    #                       'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
+    #                       'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
+    #                       'findings_final_0814-portion1ita21round14_seed174506763_size10000',
+    #                       'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
+    #                       'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+
+    # target_train_paths = ['findings_final_0814_seed238506806_size1000',
+    #                       'findings_final_0814_seed1033059257_size2000',
+    #                       'findings_final_0814_seed678668699_size3000',
+    #                       'findings_final_0814_seed-1872107095_size4000',
+    #                       'findings_final_0814_seed-190708218_size5000',
+    #                       'findings_final_0814_seed2132231585_size10000',
+    #                       'findings_final_0814_seed-972126700_size500',
+    #                       'findings_final_0814_seed-1331694080_size100']
+    target_train_paths = ['findings_final_0814_seed-53154026_size50',
                           'findings_final_0814_seed-1133351443_size400',
                           'findings_final_0814_seed-1227021050_size300',
-                          'findings_final_0814_seed756906437_size200',
-                          'findings_final_0814_seed-1331694080_size100',
-                          'findings_final_0814_seed-53154026_size50']
+                          'findings_final_0814_seed756906437_size200']
+
 
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0

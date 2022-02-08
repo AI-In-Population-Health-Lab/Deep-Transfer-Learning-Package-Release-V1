@@ -38,7 +38,7 @@ sys.path.append('')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-fold_loc = '../'
+fold_loc = '../../'
 source_train_fold_loc = fold_loc + 'data/synthetic_data_v2/source_train/'
 target_train_fold_loc = fold_loc + 'data/synthetic_data_v2/target_train/'
 target_test_fold_loc = fold_loc + 'data/synthetic_data_v2/target_test/'

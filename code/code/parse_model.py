@@ -77,6 +77,6 @@ def parse_all(dirname):
 
 if __name__ == "__main__":
     # parse("data/learned_source_model/findings_final_0814.bif")
-    fileLoc = "../data/"
+    fileLoc = "../../data/"
     parse_all(fileLoc + "source_model/") #other_source_model/
     #parse_all(fileLoc + "learned_target_model/")

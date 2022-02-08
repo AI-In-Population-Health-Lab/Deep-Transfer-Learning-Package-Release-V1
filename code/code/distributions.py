@@ -82,7 +82,7 @@ def get_kl(filename1, filename2):
 
 
 if __name__ == "__main__":
-    fileLoc ="../data/"
+    fileLoc ="../../data/"
     #filename1 = fileLoc + "learned_source_model/findings_final_0814-portion1ita2round4.bif"
 
     filenameLoc1 = fileLoc + "source_model/"

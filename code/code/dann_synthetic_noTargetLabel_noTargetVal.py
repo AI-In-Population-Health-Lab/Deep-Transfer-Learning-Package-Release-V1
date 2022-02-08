@@ -36,11 +36,11 @@ sys.path.append('')
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-source_train_fold_loc = '../data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '../data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '../data/synthetic_data_v2/target_test/'
-results_fold_loc ='../results/accuracy/'
-learned_model_fold_loc ='../results/learned_model/dann_noTargetLabel/'
+source_train_fold_loc = '../../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../../results/accuracy/'
+learned_model_fold_loc ='../../results/learned_model/dann_noTargetLabel/'
 
 learned_model_list = []
 
