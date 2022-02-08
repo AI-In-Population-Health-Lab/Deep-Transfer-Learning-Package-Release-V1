@@ -22,7 +22,7 @@ All you can install via `conda` or `pip`.
 ```
 git clone https://github.com/AI-Public-Health/Transfer-Learning-on-synthetic-data.git
 
-cd code
+cd code/code
 ```
 
 
