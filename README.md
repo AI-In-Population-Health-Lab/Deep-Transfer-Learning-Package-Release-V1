@@ -175,10 +175,10 @@ python model-based-TL-TuneLast1Layer.py --lr=0.02
 For **MDTL_Tune2**, the parameters of the first layer are frozen and the source model is trained under the target setting.
 ```python 
 # run it in the command line, to obtain MDTL_Tune2 model
-python model-based-TL-TuneLast2Layer.py
+python model-based-TL-TuneLast2Layers.py
 
 ##run program with specified learning rate (0.02)  
-python model-based-TL-TuneLast2Layer.py --lr=0.02 
+python model-based-TL-TuneLast2Layers.py --lr=0.02 
 ```
 
 For **MDTL_Tune_ALL**, all of the parameters are be fine-tuned under the target setting.
@@ -187,7 +187,7 @@ For **MDTL_Tune_ALL**, all of the parameters are be fine-tuned under the target 
 python model-based-TL-TuneAllLayers.py
 
 ##run program with specified learning rate (0.02)  
-model-based-TL-TuneLast2Layer.py --lr=0.02 
+python model-based-TL-TuneAllLayers.py --lr=0.02 
 ```
 
 
