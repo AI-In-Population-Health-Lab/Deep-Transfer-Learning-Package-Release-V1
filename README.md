@@ -268,4 +268,3 @@ In our code, we have predefined some hyperparameters, like  *epochs=10, batch_si
 &nbsp; DANN_unsupervised works well in the second situation, especially when the dissimilarity between the source and the target is large while the target features are limited.**
 
 
-## Code will be released soon
