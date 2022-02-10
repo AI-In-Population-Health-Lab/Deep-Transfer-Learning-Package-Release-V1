@@ -19,7 +19,7 @@ Package:
 - [x] torchvision (version--0.8.2)  
 - [x] qpsolvers (version--1.8.0)
 
-The configuration can set by `conda` as below:  
+The configuration can be set by `conda` as below:  
 ```
 conda create --name TL python=3.8 anaconda
 conda activate TL
