@@ -11,11 +11,34 @@
 
 
 ### Configuration  
-- [x] Python (version--3.9)
-- [x] PyTorch (version--1.10.1) 
-- [x] torchvision (version--0.11.3)        
+Language
+- [x] Python (version--3.8)
+Package:
+- [x] PyTorch (version--1.7.1) 
+- [x] torchvision (version--0.8.2)  
+- [x] qpsolvers (version--1.8.0)
 
-All you can install via `conda` or `pip`.
+The configuration can set by `conda` as below:  
+```
+conda create --name TL python=3.8 anaconda
+conda activate TL
+conda install pytorch==1.7.1 torchvision==0.8.2  -c pytorch
+pip install qpsolvers==1.8.0
+```
+
+(Note: If you are using torchvision and pytorch that are not compatible with specific version of Python, or if your version of torchvision is not compatible with your version of PyTorch, you may face some tricky bugs when running our code.)
+
+For example, if you are using a different version of pytorch or torchversion than we are, you may need to make some changes in the import statement section, for example.     
+Change the
+```
+from torchvision.models.utils import load_state_dict_from_url
+```
+into  
+```
+from torch.hub import load_state_dict_from_url
+```
+
+To avoid unexpected bugs, we recommend that you run our code in the same configuration as we did.
 
 ### Download and Run
 
