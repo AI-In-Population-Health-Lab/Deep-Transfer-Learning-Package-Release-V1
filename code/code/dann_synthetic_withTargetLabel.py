@@ -41,11 +41,11 @@ import os
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/dann_withTargetLabel/'
+source_train_fold_loc = '../../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../../results/accuracy/'
+learned_model_fold_loc ='../../results/learned_model/dann_withTargetLabel/'
 
 learned_model_list = []
 

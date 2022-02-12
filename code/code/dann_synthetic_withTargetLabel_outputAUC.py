@@ -4,42 +4,33 @@ import warnings
 import sys
 import argparse
 import copy
-
 import torch
-import torch.nn as nn
 import torch.nn.parallel
 import torch.backends.cudnn as cudnn
 from torch.optim import SGD
 import torch.utils.data
 from torch.utils.data import DataLoader
 import torch.utils.data.distributed
-import torchvision.transforms as transforms
 import torch.nn.functional as F
-
-import numpy as np
-import pandas as pd
-
-
-
-sys.path.append('')
 from dalib.modules.domain_discriminator import DomainDiscriminator
 from dalib.adaptation.dann import DomainAdversarialLoss
 from feedforward import BottleneckNN, BackboneNN
 import dalib.vision.datasets as datasets
 import dalib.vision.models as models
 from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
-from tools.transforms import ResizeImage
 from tools.lr_scheduler import StepwiseLR
 from data_processing import prepare_datasets
-
-from dataset import Dataset
 from os import walk
 import os
 
 import numpy
-import csv
-import sklearn
 from sklearn import metrics
+import pandas as pd
+
+
+
+sys.path.append('')
+
 
 
 
@@ -47,7 +38,7 @@ from sklearn import metrics
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/'
+fold_loc = '../../'
 source_train_fold_loc = fold_loc + 'data/synthetic_data_v2/source_train/'
 target_train_fold_loc = fold_loc + 'data/synthetic_data_v2/target_train/'
 target_test_fold_loc = fold_loc + 'data/synthetic_data_v2/target_test/'
@@ -348,7 +339,7 @@ if __name__ == '__main__':
                         help='Number of iterations per epoch')
 
     args = parser.parse_args()
-    # print(args)
+    print(args)
 
     # source_train_paths = getFileList(source_train_fold_loc)
     # print(source_train_paths)

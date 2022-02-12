@@ -16,31 +16,26 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torch.nn.functional as F
 from collections import Counter
-
+from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
+from data_processing import prepare_datasets,prepare_datasets_returnSourceVal,prepare_datasets_stratify_returnSourceVal
+from feedforward import BackboneClassifierNN_M4
+import numpy
+from sklearn import metrics
 import pandas as pd
 
 sys.path.append('.')
-from feedforward import BackboneClassifierNN
-from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
-from tools.transforms import ResizeImage
-from tools.lr_scheduler import StepwiseLR
-from data_processing import prepare_datasets,prepare_datasets_returnSourceVal,prepare_datasets_stratify_returnSourceVal
-from feedforward import BackboneClassifierNN_M4
-from dataset import Dataset
 
-import numpy
-import csv
-from sklearn import metrics
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-prob_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/auc/'
+source_train_fold_loc = '../../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../../results/accuracy/'
+prob_fold_loc ='../../results/auc/'
 
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/learned_target_model/'
+learned_model_fold_loc ='../results/learned_model/learned_target_model/'
 
 
 def main(args: argparse.Namespace):

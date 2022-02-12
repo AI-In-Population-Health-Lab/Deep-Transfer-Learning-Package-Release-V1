@@ -13,31 +13,27 @@ from torch.optim import SGD
 import torch.utils.data
 from torch.utils.data import DataLoader
 import torch.utils.data.distributed
-import torchvision.transforms as transforms
 import torch.nn.functional as F
 
 from collections import Counter
-from sklearn.metrics import roc_auc_score
 
-import pandas as pd
-
-sys.path.append('.')
-from feedforward import BackboneClassifierNN
 from feedforward import BackboneClassifierNN_M4
 from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
-from tools.transforms import ResizeImage
+
 from tools.lr_scheduler import StepwiseLR
 from data_processing import prepare_datasets, prepare_datasets_stratify
 
-from dataset import Dataset
+
+sys.path.append('.')
+
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
-source_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/source_train/'
-target_train_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_train/'
-target_test_fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/data/synthetic_data_v2/target_test/'
-results_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/accuracy/'
-learned_model_fold_loc ='/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/results/learned_model/learned_target_model/'
+source_train_fold_loc = '../../data/synthetic_data_v2/source_train/'
+target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
+target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
+results_fold_loc ='../../results/accuracy/'
+learned_model_fold_loc ='../../results/learned_model/learned_target_model/'
 
 
 def main(args: argparse.Namespace):
@@ -260,7 +256,20 @@ if __name__ == '__main__':
     #                       'findings_final_0814_seed450152107_size10',
     #                       'findings_final_0814_seed756906437_size200']
 
-    target_train_paths = ['findings_final_0814_seed756906437_size200']
+    #target_train_paths = ['findings_final_0814_seed756906437_size200']
+
+    target_train_paths = ['findings_final_0814_seed2132231585_size10000',
+                          'findings_final_0814_seed-190708218_size5000',
+                          'findings_final_0814_seed-1872107095_size4000',
+                          'findings_final_0814_seed678668699_size3000',
+                          'findings_final_0814_seed1033059257_size2000',
+                          'findings_final_0814_seed238506806_size1000',
+                          'findings_final_0814_seed-972126700_size500',
+                          'findings_final_0814_seed-1133351443_size400',
+                          'findings_final_0814_seed-1227021050_size300',
+                          'findings_final_0814_seed756906437_size200',
+                          'findings_final_0814_seed-1331694080_size100',
+                          'findings_final_0814_seed-53154026_size50']
 
 
     d_kl_dict = {}

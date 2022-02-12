@@ -47,7 +47,7 @@ from sklearn import metrics
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
-fold_loc = '/Users/yeye/Documents/CMU_course_project/Transfer-Learning/syntheticData_Exp_11082021_code_result/'
+fold_loc = '../../'
 source_train_fold_loc = fold_loc + 'data/synthetic_data_v2/source_train/'
 target_train_fold_loc = fold_loc + 'data/synthetic_data_v2/target_train/'
 target_test_fold_loc = fold_loc + 'data/synthetic_data_v2/target_test/'

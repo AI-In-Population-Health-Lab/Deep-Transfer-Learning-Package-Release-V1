@@ -48,6 +48,7 @@ def get_avg_kl(filename1, filename2):
     # print("max avg d_KL", max_d_kl)
 
 def get_kl(filename1, filename2):
+    # print(filename1, filename2)
     # load tables
     prob_table_pk_filename1 = get_prob_table_pk_filename(filename1)
     prob_table_pk_filename2 = get_prob_table_pk_filename(filename2)
@@ -81,12 +82,12 @@ def get_kl(filename1, filename2):
 
 
 if __name__ == "__main__":
-    fileLoc ="/Users/yeye/Dropbox/000KGrant/achievement_K99/cmu_course/intermediate_deep_learning/project-sharing-with-Andrew/Ye-Ye-Andrew-Gu-Final-report-code-data-results/Transfer-Learning/data/"
+    fileLoc ="../../data/"
     #filename1 = fileLoc + "learned_source_model/findings_final_0814-portion1ita2round4.bif"
-    print(fileLoc)
-    filenameLoc1 = fileLoc + "other_source_model/"
+
+    filenameLoc1 = fileLoc + "source_model/"
     #dirname = "data/learned_source_model/"
-    filename2 = fileLoc + "learned_target_model/findings_final_0814.bif"
+    filename2 = fileLoc + "target_model/findings_final_0814.bif"
     # for filename in os.listdir(dirname):
         # if (filename.endswith(".bif")):
             # get_avg_kl(os.path.join(dirname, filename), filename2)
@@ -95,7 +96,7 @@ if __name__ == "__main__":
     result={}
     for filename in os.listdir(filenameLoc1):
         if (filename.endswith(".bif")):
-            print(filename)
+
             kl= get_kl(filename2, filename)  # KL(target,source)
             result[kl] = filename
     import collections

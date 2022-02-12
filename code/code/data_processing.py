@@ -55,9 +55,6 @@ def prepare_datasets(source_train_path, target_train_path, target_test_path, lab
     target_train_features_overall, target_train_labels_overall = parse_csv(target_train_path, label_key)
     target_train_features_dummies_overall = pd.get_dummies(target_train_features_overall)
 
-
-
-
     target_test_features, target_test_labels = parse_csv(target_test_path, label_key)
     target_test_features_dummies = pd.get_dummies(target_test_features)
 
