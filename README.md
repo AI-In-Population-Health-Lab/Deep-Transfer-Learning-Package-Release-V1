@@ -1,13 +1,15 @@
 # Deep Transfer Learning
 **Electronic medical records (EMR)-based infectious disease case detection often faces performance drop in a new setting, which may result from differences in population distribution, EMR system implementation, and hospital administrations. Considering both the similarities and the dissimilarities between a source setting and a target setting, transfer learning may offer an effective way of improving the re-usability of source knowledge in a target setting. This study aims to explore when and how deep transfer learning is useful.**  
+
 **We simulated multiple transfer scenarios that vary in the target training size and the dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared Domain adversarial neural networks (DANN), a classic source data-based deep transfer learning method, source model-based deep transfer learning (MDTL), and baseline models, including a source model, a target model, and a combined model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
+
 **Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis.**
 
 
 
 ----
 
-**In the following section, we try to use this README.md file to explain how our code works, hopefully making our project easier to understand for viewers, who might want to leverage the project for further research.**
+**In the following section, we use this README.md file to briefly explain how our code works. Further information can be found in the to-be-published manuscript and related references.**
 
 
 
@@ -286,10 +288,8 @@ In our code, we have predefined some hyperparameters, like  *epochs=10, batch_si
 &nbsp;
 
 
-> ## Conclusion <a name="conclusion"></a>
+> ## Main Results and Conclusion <a name="conclusion"></a>
 
-&nbsp; **Our experiments show that in two situations, in the context of infectious disease detection, DTL can be useful when *(1) the target training data is insufficient* and *(2) the target training data does not have labels.*        
-&nbsp; MDTL and DANN_supervised methods work well in the first situation, especially when the dissimilarity between the source and the target is large.       
-&nbsp; DANN_unsupervised works well in the second situation, especially when the dissimilarity between the source and the target is large while the target features are limited.**
+&nbsp; **Our experiments show that simply combining source and target data for modeling does not work well. Both MDTL and DANN perform better than baseline models when the source and target distribution is not largely different (KL is 1), and the target setting has few training samples (size <1000). MDTL models reach a similar performance as DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be useful when the source and target are similar, and the target training data is insufficient. Sharing a well-developed model can be sufficient.**
 
 
