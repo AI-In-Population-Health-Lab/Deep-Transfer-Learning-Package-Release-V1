@@ -1,6 +1,7 @@
 # Deep Transfer Learning
-**Machine learning is a powerful tool in the biomedical field; however, at times machine learning suffers from the deficiency in the quantity and quality of the training data. To overcome these limitations of machine learning due to the limitations of data, transfer learning has been introduced.**  
-**In this paper, we explore the deep transfer learning (DTL) methods for infectious disease case detection. This method uses shared EHR raw data or models building from the source data to predict infectious disease pandemic cases in a target region.**
+**Electronic medical records (EMR)-based infectious disease case detection often faces performance drop in a new setting, which may result from differences in population distribution, EMR system implementation, and hospital administrations. Considering both the similarities and the dissimilarities between a source setting and a target setting, transfer learning may offer an effective way of improving the re-usability of source knowledge in a target setting. This study aims to explore when and how deep transfer learning is useful.**  
+**We simulated multiple transfer scenarios that vary in the target training size and the dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared Domain adversarial neural networks (DANN), a classic source data-based deep transfer learning method, source model-based deep transfer learning (MDTL), and baseline models, including a source model, a target model, and a combined model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
+**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis.**
 
 
 
