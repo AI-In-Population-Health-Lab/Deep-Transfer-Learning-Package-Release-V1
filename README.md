@@ -84,7 +84,7 @@ As description in our paper, the caculation of KL can be simplfied in this conte
 
 * **Zero Padding**   
 Data in the source setting may have/often has different dimensions than data extracted from the target setting, so before training models, the source and target data should be mapped into the same space. Our program solve this problem by **padding extra zeros** so that data from different settings have the same dimensionality.   
-Even though all the data in my released synthetic dataset has the same dimensionality in both the source and target settings, we still include this **zero padding** method in `data_preprocess.py` for situations where you might have data with different dimensions.
+Even though all the data in the released synthetic dataset have the same dimensionality in both the source and target settings, we still include this **zero padding** method in `data_preprocess.py` for situations where you might have data with different dimensions.
 
 After this recalibration of the data, we use all of the source data for model training, and split our target data into different portions, for training, validation, or testing in the following models.   
 
