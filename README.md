@@ -47,7 +47,7 @@ To avoid unexpected bugs, we recommend that you run our code in the same configu
 ### Download and Run
 
 ```
-git clone https://github.com/AI-Public-Health/Transfer-Learning-on-synthetic-data.git
+git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package.git
 
 cd code/code
 ```
