@@ -16,7 +16,7 @@ import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torch.nn.functional as F
 
-import numpy as np
+import numpy
 import pandas as pd
 
 
@@ -265,6 +265,34 @@ if __name__ == '__main__':
         name for name in datasets.__dict__
         if not name.startswith("__") and callable(datasets.__dict__[name])
     )
+    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
+                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
+                          'findings_final_0814-portion1ita27round9_seed273823007_size10000',
+                          'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
+                          'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
+                          'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
+                          'findings_final_0814-portion1ita21round14_seed174506763_size10000',
+                          'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+
+    target_train_paths = ['findings_final_0814_seed2132231585_size10000',
+                          'findings_final_0814_seed-190708218_size5000',
+                          'findings_final_0814_seed-1872107095_size4000',
+                          'findings_final_0814_seed678668699_size3000',
+                          'findings_final_0814_seed1033059257_size2000',
+                          'findings_final_0814_seed238506806_size1000',
+                          'findings_final_0814_seed-972126700_size500',
+                          'findings_final_0814_seed-1133351443_size400',
+                          'findings_final_0814_seed-1227021050_size300',
+                          'findings_final_0814_seed756906437_size200',
+                          'findings_final_0814_seed-1331694080_size100',
+                          'findings_final_0814_seed-53154026_size50']
+
+    seed_paths = [14942, 43277, 79280, 8463, 12650]
 
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
     parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
@@ -283,15 +311,19 @@ if __name__ == '__main__':
                         dest='weight_decay')
     parser.add_argument('-p', '--print-freq', default=100, type=int,
                         metavar='N', help='print frequency (default: 100)')
-    parser.add_argument('--seed', default=None, type=int,
-                        help='seed for initializing training. ')
     parser.add_argument('--trade-off', default=1., type=float,
                         help='the trade-off hyper-parameter for transfer loss')
     parser.add_argument('-i', '--iters-per-epoch', default=313, type=int,
                         help='Number of iterations per epoch')
+    parser.add_argument('--seed', default=seed_paths, type=int,nargs='+',
+                        help='seed for initializing training. ')
+    parser.add_argument('--source', '--source_path', default=source_train_paths,  nargs='+',
+                        help='path of source data',dest='source')
+    parser.add_argument('--target', '--target_path', default=target_train_paths,  nargs='+',
+                        help='path of target data',dest='target')
 
     args = parser.parse_args()
-    print(args)
+    #print(args)
 
     # source_train_paths = getFileList(source_train_fold_loc)
     # print(source_train_paths)
@@ -328,11 +360,7 @@ if __name__ == '__main__':
     #                       'findings_final_0814_seed450152107_size10',
     #                       'findings_final_0814_seed756906437_size200']
 
-    source_train_paths = ['findings_final_0814-portion1ita28round3_seed-279490714_size10000',
-                          'findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
-
-    target_train_paths = ['findings_final_0814_seed-1133351443_size400']
-
+    
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
@@ -342,8 +370,10 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
     d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
-
-    seed_paths = [14942, 43277, 79280, 8463, 12650]
+    
+    source_train_paths = args.source
+    target_train_paths = args.target
+    seed_paths = args.seed
 
     #assert(len(source_train_paths) == len(d_kl_dict.keys()))
 

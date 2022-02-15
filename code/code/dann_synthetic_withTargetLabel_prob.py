@@ -207,34 +207,6 @@ def generateIntegarArray(size):
 
 
 if __name__ == '__main__':
-
-    parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
-    parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
-                        help='number of data loading workers (default: 4)')
-    parser.add_argument('--epochs', default=10, type=int, metavar='N',
-                        help='number of total epochs to run')
-    parser.add_argument('-b', '--batch-size', default=32, type=int,
-                        metavar='N',
-                        help='mini-batch size (default: 32)')
-    parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
-                        metavar='LR', help='initial learning rate', dest='lr')
-    parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
-                        help='momentum')
-    parser.add_argument('--wd', '--weight-decay',default=1e-3, type=float,
-                        metavar='W', help='weight decay (default: 1e-3)',
-                        dest='weight_decay')
-    parser.add_argument('-p', '--print-freq', default=100, type=int,
-                        metavar='N', help='print frequency (default: 100)')
-    parser.add_argument('--seed', default=None, type=int,
-                        help='seed for initializing training. ')
-    parser.add_argument('--trade-off', default=1., type=float,
-                        help='the trade-off hyper-parameter for transfer loss')
-    parser.add_argument('-i', '--iters-per-epoch', default=313, type=int,
-                        help='Number of iterations per epoch')
-
-    args = parser.parse_args()
-    print(args)
-
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
                       'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
                       'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
@@ -263,8 +235,41 @@ if __name__ == '__main__':
                           'findings_final_0814_seed756906437_size200',
                           'findings_final_0814_seed-1331694080_size100',
                           'findings_final_0814_seed-53154026_size50']
+    seed_paths = [14942, 43277, 79280, 8463, 12650]
 
 
+    parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
+    parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
+                        help='number of data loading workers (default: 4)')
+    parser.add_argument('--epochs', default=10, type=int, metavar='N',
+                        help='number of total epochs to run')
+    parser.add_argument('-b', '--batch-size', default=32, type=int,
+                        metavar='N',
+                        help='mini-batch size (default: 32)')
+    parser.add_argument('--lr', '--learning-rate', default=0.01, type=float,
+                        metavar='LR', help='initial learning rate', dest='lr')
+    parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
+                        help='momentum')
+    parser.add_argument('--wd', '--weight-decay',default=1e-3, type=float,
+                        metavar='W', help='weight decay (default: 1e-3)',
+                        dest='weight_decay')
+    parser.add_argument('-p', '--print-freq', default=100, type=int,
+                        metavar='N', help='print frequency (default: 100)')
+    parser.add_argument('--trade-off', default=1., type=float,
+                        help='the trade-off hyper-parameter for transfer loss')
+    parser.add_argument('-i', '--iters-per-epoch', default=313, type=int,
+                        help='Number of iterations per epoch')
+    parser.add_argument('--seed', default=seed_paths, type=int,nargs='+',
+                        help='seed for initializing training. ')
+    parser.add_argument('--source', '--source_path', default=source_train_paths,  nargs='+',
+                        help='path of source data',dest='source')
+    parser.add_argument('--target', '--target_path', default=target_train_paths,  nargs='+',
+                        help='path of target data',dest='target')
+
+    args = parser.parse_args()
+    #print(args)
+
+ 
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
@@ -274,9 +279,11 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
     d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
+    source_train_paths = args.source
+    target_train_paths = args.target
+    seed_paths = args.seed
 
-
-    seed_paths = [14942, 43277, 79280, 8463, 12650]
+    
 
     with open(results_fold_loc + "/auc_dann_withTargetVal_log11222021.txt", "w") as f:
         f.write(f"d_kl,source_train_path,target_train_path,seed_index,seed,test_acc,avg_auc,auc_I,auc_M,auc_P,auc_R\n")

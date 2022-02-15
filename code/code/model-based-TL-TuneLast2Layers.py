@@ -5,7 +5,7 @@ import warnings
 import sys
 import argparse
 import copy
-
+import os
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -231,6 +231,18 @@ def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
 
 
 if __name__ == '__main__':
+    seed_paths = [18807, 44202, 20252, 18793, 30005]
+    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
+                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
+                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+
+    target_train_paths = ['findings_final_0814_seed-53154026_size50',
+                          'findings_final_0814_seed-1133351443_size400',
+                          'findings_final_0814_seed-1227021050_size300',
+                          'findings_final_0814_seed756906437_size200']
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
     parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                         help='number of data loading workers (default: 4)')
@@ -248,37 +260,27 @@ if __name__ == '__main__':
                         dest='weight_decay')
     parser.add_argument('-p', '--print-freq', default=100, type=int,
                         metavar='N', help='print frequency (default: 100)')
-    parser.add_argument('--seed', default=None, type=int,
-                        help='seed for initializing training. ')
     parser.add_argument('--trade-off', default=1., type=float,
                         help='the trade-off hyper-parameter for transfer loss')
     parser.add_argument('-i', '--iters-per-epoch', default=313, type=int,
                         help='Number of iterations per epoch')
 
+    parser.add_argument('--source', '--source_path', default=source_train_paths,  nargs='+',
+                        help='path of source data',dest='source')
+    parser.add_argument('--seed', default=seed_paths, type=int,nargs='+',
+                        help='seed for initializing training. ')
+    parser.add_argument('--target', '--target_path', default=target_train_paths,  nargs='+',
+                        help='path of target data',dest='target')
+
+
     args = parser.parse_args()
-    print(args)
 
-    source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+    source_train_paths = args.source
+    seed_paths = args.seed 
+    target_train_paths = args.target
 
-    # target_train_paths = ['findings_final_0814_seed238506806_size1000',
-    #                       'findings_final_0814_seed1033059257_size2000',
-    #                       'findings_final_0814_seed678668699_size3000',
-    #                       'findings_final_0814_seed-1872107095_size4000',
-    #                       'findings_final_0814_seed-190708218_size5000',
-    #                       'findings_final_0814_seed2132231585_size10000',
-    #                       'findings_final_0814_seed-972126700_size500',
-    #                       'findings_final_0814_seed-1331694080_size100']
 
-    target_train_paths = ['findings_final_0814_seed-53154026_size50',
-                          'findings_final_0814_seed-1133351443_size400',
-                          'findings_final_0814_seed-1227021050_size300',
-                          'findings_final_0814_seed756906437_size200']
-
+   
 
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0
@@ -289,16 +291,27 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
 
     seed_dict={}
-    seed_dict['findings_final_0814_seed1591536269_size10000']=79280
-    seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
-    seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
-    seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
-    seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
-    seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
+    # seed_dict['findings_final_0814_seed1591536269_size10000']=79280
+    # seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
+    # seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
+    # seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
+    # seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
+    # seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
+    files = os.listdir(learned_model_fold_loc)
+    file_source = []
+    for i in files:
+        if 'findings' in i and 'layer' not in i:
+            file_source.append(i)
 
-    seed_paths = [18807, 44202, 20252, 18793, 30005]
+    for j in file_source:
+        tem_seed = os.path.splitext(j)[0].split('_')[-1]
+        tem_key = '_'.join(os.path.splitext(j)[0].split('_')[:-1])
+        seed_dict[tem_key]=tem_seed
 
-    assert (len(source_train_paths) == len(d_kl_dict.keys()))
+
+
+
+    #assert (len(source_train_paths) == len(d_kl_dict.keys()))
     for j in range(len(target_train_paths)):
         args.target_train_path = target_train_paths[j]
         size = target_train_paths[j].split("size")[1]
@@ -306,7 +319,11 @@ if __name__ == '__main__':
             f.write(f"d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc\n")
             for i in range(len(source_train_paths)):
                 args.source_train_path = source_train_paths[i]
-                args.source_seed = seed_dict[args.source_train_path]
+                try:
+                    args.source_seed = seed_dict[args.source_train_path]
+                except KeyError:
+                    print(f'Do not exist corresponding source model of {args.source_train_path}. Please train a source model before fine-tuning section !!!\n')
+                    break
                 print(args.source_train_path, args.target_train_path)
                 d_kl = -1
                 for key in d_kl_dict.keys():
