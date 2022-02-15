@@ -38,6 +38,7 @@ import os
 
 
 
+
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 
@@ -290,7 +291,7 @@ if __name__ == '__main__':
                         help='Number of iterations per epoch')
 
     args = parser.parse_args()
-    # print(args)
+    print(args)
 
     # source_train_paths = getFileList(source_train_fold_loc)
     # print(source_train_paths)
