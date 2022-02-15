@@ -49,7 +49,7 @@ To avoid unexpected bugs, we recommend that you run our code in the same configu
 ```
 git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package.git
 
-cd code/code
+cd Deep-Transfer-Learning-Package/code/code
 ```
 
 
@@ -86,6 +86,12 @@ Data in the source setting may have/often has different dimensions than data ext
 Even though all the data in the released synthetic datasets have the same dimensionality in both the source and target settings, we still include this **zero padding** method in `data_preprocess.py` for situations where you might have data with different dimensions.
 
 After this recalibration of the data, we use all of the source data for model training and split our target data into different portions, for training, validation, or testing in the following models.   
+
+
+* **Data Splitting**  
+During experiments, the dataset needs to be splitted into different portions for difference purpose--training, testing, validation. In `data_procesing.py`, the associated methods are defined to split the dataset.  
+In our experiments, due to the synthetic data being balanced distributed, and the dataset is split in the order of rows. However, if your dataset is skewed, you might need to change our methods of data splitting into stratified splitting ones, which are also included in `data_procesing.py`.        
+(e.g.: changing `prepare_datasets_returnSourceVal` to `prepare_datasets_stratify_returnSourceVal`)
 
 &nbsp;
 
@@ -169,7 +175,8 @@ python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3
 &nbsp;
 
 > ## Model-based Deep Transfer Learning (MDTL) <a name="MDTL"></a>
-Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using a few target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer; among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.
+Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using a few target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer; among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.    
+Since the MDTL module relies on the [learned source model](#BL), make sure the learned source model exists before running this fine-tuning section.
 
 
 * **MDTL_Tune1** --- `model-based-TL-TuneLast1Layer.py`    
