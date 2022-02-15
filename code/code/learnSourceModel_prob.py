@@ -19,6 +19,7 @@ from data_processing import prepare_datasets_returnSourceVal
 from feedforward import BackboneClassifierNN_M4
 import numpy
 from sklearn import metrics
+import os
 
 sys.path.append('.')
 
@@ -83,6 +84,11 @@ def main(args: argparse.Namespace):
 
     # load source model
     print("load best model")
+    
+    if not os.path.exists(learned_source_model_path):
+        tem = learned_source_model_path.split('/')[-1]
+        print(f'the model -- {tem} does not exits !!')
+        return '','','','','',''
     classifier.load_state_dict(torch.load(learned_source_model_path))
     print(classifier)
     # Print model's state_dict

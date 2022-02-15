@@ -4,7 +4,7 @@ import warnings
 import sys
 import argparse
 import copy
-
+import os
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -86,8 +86,13 @@ def main(args: argparse.Namespace):
     optimizer = SGD(classifier.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay, nesterov=True)
 
     # load source model
-    print("load best model")
+    
+    if not os.path.exists(learned_target_model_path):
+        tem = learned_target_model_path.split('/')[-1]
+        print(f'the model -- {tem}--does not exits !!')
+        return '','','','','',''
     classifier.load_state_dict(torch.load(learned_target_model_path))
+    print("load best model")
     print(classifier)
     # Print model's state_dict
     print("Model's state_dict:")

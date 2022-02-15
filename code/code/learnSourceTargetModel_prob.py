@@ -3,7 +3,7 @@ import time
 import warnings
 import sys
 import argparse
-
+import os
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -88,6 +88,10 @@ def main(args: argparse.Namespace):
     optimizer = SGD(classifier.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay, nesterov=True)
 
     # load source model
+    if not os.path.exists(learned_source_model_path):
+        tem = learned_source_model_path.split('/')[-1]
+        print(f'the model -- {tem} does not exits !!')
+        return '','','','','',''
     print("load best model")
     classifier.load_state_dict(torch.load(learned_source_model_path))
     print(classifier)
@@ -239,6 +243,7 @@ if __name__ == '__main__':
                           'findings_final_0814_seed-190708218_size5000',
                           'findings_final_0814_seed2132231585_size10000']
     seed_paths = [14942, 43277, 79280, 8463, 12650]
+
 
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
     parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
