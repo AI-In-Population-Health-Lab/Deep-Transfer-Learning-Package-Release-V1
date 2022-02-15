@@ -15,10 +15,13 @@ def main(args: argparse.Namespace):
     epoch = '--epoch=' +str(args.epoch) if (args.epoch) else ''
 
     print("\n--------Run Data-based Deep Transfer Learning model---------")  
+    print('1.DANN--unsupervised \n')
     os.system('python dann_synthetic_noTargetLabel_noTargetVal.py '+target+' '+source+' '+seed+' '+epoch)
-    print('\n')
     os.system('python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py '+target+' '+source+' '+seed+' '+epoch)
-
+    print('\n2.DANN--supervised \n')
+    os.system('python dann_synthetic_withTargetLabel.py '+target+' '+source+' '+seed+' '+epoch)
+    os.system('python dann_synthetic_withTargetLabel_outputAUC.py '+target+' '+source+' '+seed+' '+epoch)
+    
 
     print("\n-------- Run Baseline Model ---------")
     print("1. TRAIN SOURCE MODEL \n")
