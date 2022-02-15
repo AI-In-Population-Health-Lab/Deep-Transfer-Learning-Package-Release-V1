@@ -51,6 +51,8 @@ git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package.git
 
 cd Deep-Transfer-Learning-Package/code/code
 ```
+
+#### Run the Whole Project
 Run the all of models in the repositiry. For illustration, in here, the source data is specified as `findings_final_0814_seed1591536269_size1000.csv` (stored in */synthetic_data_v2/source_train*), target data is `findings_final_0814_seed-53154026_size50.csv`(stored in */synthetic_data_v2/target_train*), initial random seed is `14942`, number of epoch is `1`. You can change these hyperparameters to suit your needs.   
 If you run `main_run.py` directly, without setting any parameters, the program will use all defaults (run on all datasets in */synthetic_data_v2*, trying several predefined random seeds), which may take some time to complete the whole process. 
 ```python
