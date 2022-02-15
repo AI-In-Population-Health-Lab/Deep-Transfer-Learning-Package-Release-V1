@@ -1,2 +1,0 @@
-target_train_path,seed_index,args.seed,validate_acc,test_acc
-findings_final_0814_seed-53154026_size50,0,14942,60.0,43.21

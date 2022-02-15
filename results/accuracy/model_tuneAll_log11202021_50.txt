@@ -1,2 +1,0 @@
-d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc
-0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,14942,60.0,55.63
