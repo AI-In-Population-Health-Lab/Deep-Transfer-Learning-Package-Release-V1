@@ -251,8 +251,8 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	#calculate AUC of all the learned source model derived from different source datasets
 	python learnSourceModel_prob.py
 
-	# get AUC of model derived from source dataset--source=findings_final_0814_seed1591536269_size10000.csv.
-	python learnSourceModel_prob.py --source=findings_final_0814_seed1591536269_size10000
+	# get AUC of model derived from source dataset--source=findings_final_0814_seed1591536269_size10000.csv,initial random seed = 14942.
+	python learnSourceModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
 	```
 
 
@@ -261,7 +261,7 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	#train different target models based on different target datasets with default parameters
 	python learnTargetModel.py
 
-	# train learnTargetModel on specified target dataset-findings_final_0814_seed-53154026_size50.csv, learning rate=0.02, epoch=20, initial random seed = 14942..
+	# train learnTargetModel on specified target dataset-findings_final_0814_seed-53154026_size50.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
 	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --lr=0.02 --epochs=20 --seed=14942
 	```
 	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting.  
@@ -269,8 +269,8 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	#calculate AUC of all the learned target model derived from different target datasets
 	python learnTargetModel_prob.py
 
-	# get AUC of model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv.
-	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50
+	# get AUC of model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv,initial random seed = 14942.
+	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
 3. **BL_combined**: using both the source and target training datasets to train a model, and obtaining a trained model under the combined setting 
@@ -278,16 +278,16 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	#using  all of target dataset to train learnSourceTargetModel (with defualt hyperparameters)
 	python learnSourceTargetModel.py
 
-	# using target dataset--findings_final_0814_seed-53154026_size50.csv to train learnSourceTargetModel derived from specific source dataset--findings_final_0814_seed1591536269_size10000.csv.   
-	python learnSourceTargetModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 
+	# using target dataset--findings_final_0814_seed-53154026_size50.csv to train learnSourceTargetModel derived from specific source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.   
+	python learnSourceTargetModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 	Run `learnSourceTargetModel_prob.py` to get `AUROC` values of BL_combined model under the setting.
 	```pyrhon
 	#calculate AUC of all the learned SourceTargetModel derived from different target and source datasets
 	python learnSourceTargetModel_prob.py
 
-	# get AUC of SourceTargetModel derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv and source dataset--findings_final_0814_seed1591536269_size10000.csv.
-	python learnSourceTargetModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 
+	# get AUC of SourceTargetModel derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv and source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.
+	python learnSourceTargetModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
 &nbsp;
