@@ -85,7 +85,7 @@ The definition of KL-divergence is shown below (*t*  represents target, *s* repr
 ![image](https://user-images.githubusercontent.com/39432361/152086546-b42438da-7f0e-411a-b08f-89cc445af061.png)
 As description in our paper, the caculation of KL can be simplfied in this context.
 ![image](https://user-images.githubusercontent.com/39432361/152859024-3b78dc55-1927-4c68-bdb2-44d014140e3c.png)  
- In our code, we use `parse_model.py` to generate probability tables of difference datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources.
+ In our code, we use `parse_model.py` to generate probability tables of difference datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: making sure the existance of probability tables before the calculation of KL value between them. Running `parse_model.py`  before running`distribution.py`.)
 
 
 * **Zero Padding**   
