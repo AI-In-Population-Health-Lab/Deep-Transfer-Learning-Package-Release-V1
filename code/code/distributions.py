@@ -1,13 +1,13 @@
-import re
-import numpy as np
-import pickle as pk
-import os
+# import re
+# import numpy as np
+# import pickle as pk
+# import os
+# import copy
 
 import numpy as np
 import pickle as pk
 from parse_model import get_prob_table_pk_filename
 import os
-import copy
 
 # d_KL(p1 || p2), p1 is the target distribution, p2 is the source distribution
 def get_avg_kl(filename1, filename2):
