@@ -1,7 +1,9 @@
 # Deep Transfer Learning
-**Electronic medical records (EMR)-based infectious disease case detection often faces performance drop in a new setting, which may result from differences in population distribution, EMR system implementation, and hospital administrations. Considering both the similarities and the dissimilarities between a source setting and a target setting, transfer learning may offer an effective way of improving the re-usability of source knowledge in a target setting. This study aims to explore when and how deep transfer learning is useful for infectious disease case detection.**  
+**Electronic medical record (EMR) based infectious disease case detection often faces performance drop in a new setting, which may result from differences in population distribution, EMR system implementation, and hospital administrations. Considering both the similarities and the dissimilarities between a source setting and a target setting, transfer learning may offer an effective way of improving the re-usability of source knowledge in a target setting. This study aims to explore when and how deep transfer learning is useful for infectious disease case detection.**  
 
-**We simulated multiple transfer scenarios that vary in the target training size and the dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared Domain adversarial neural networks (DANN), a classic source data-based deep transfer learning method, source model-based deep transfer learning (MDTL), and baseline models, including a source model, a target model, and a combined model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
+
+
+**We simulated multiple transfer scenarios that vary in the target training size and the dissimilarity between the source and target settings measured by the Kullback–Leibler (KL) Divergence. We compared Domain Adversarial Neural Networks (DANN), a classic source data-based deep transfer learning method, source Model-based Deep Transfer Learning (MDTL), and baseline models, including a source model, a target model, and a combined model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
 
 **Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from a transfer learning package by [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which is under MIT license.**
 
@@ -30,10 +32,10 @@ conda install pytorch==1.7.1 torchvision==0.8.2  -c pytorch
 pip install qpsolvers==1.8.0
 ```
 
-(Note: If you are using torchvision and pytorch that are not compatible with specific version of Python, or if your version of torchvision is not compatible with your version of PyTorch, you may face some tricky bugs when running our code.)
+(Note: If you are using torchvision and pytorch that are not compatible with certain versions of Python, or if your version of torchvision is not compatible with your version of PyTorch, you may face some tricky bugs when running our code.)
 
-For example, if you are using a different version of pytorch or torchversion than we are, you may need to make some changes in the import statement section, for example.     
-Change the
+For example, if you are using a different version of pytorch or torchversion than we are, you may need to make some changes in the import statement section:        
+change the
 ```
 from torchvision.models.utils import load_state_dict_from_url
 ```
@@ -42,7 +44,7 @@ into
 from torch.hub import load_state_dict_from_url
 ```
 
-To avoid unexpected bugs, we recommend that you run our code in the same configuration as we did.
+to avoid unexpected bugs, we recommend that you run our code in the same configuration as we did.
 
 ### Download and Run
 
@@ -53,7 +55,7 @@ cd Deep-Transfer-Learning-Package/code/code
 ```
 
 #### Run the Whole Project
-Run the all of models in the repositiry. For illustration, in here, the source data is specified as `findings_final_0814_seed1591536269_size1000.csv` (stored in */synthetic_data_v2/source_train*), target data is `findings_final_0814_seed-53154026_size50.csv`(stored in */synthetic_data_v2/target_train*), initial random seed is `14942`, number of epoch is `1`. You can change these hyperparameters to suit your needs.   
+Run all of the models in the repository. For illustration, in here, the source data is specified as `findings_final_0814_seed1591536269_size1000.csv` (stored in */synthetic_data_v2/source_train*), target data is `findings_final_0814_seed-53154026_size50.csv`(stored in */synthetic_data_v2/target_train*), initial random seed is `14942`, number of epoch is `1`. You can change these hyperparameters to suit your needs.   
 If you run `main_run.py` directly, without setting any parameters, the program will use all defaults (run on all datasets in */synthetic_data_v2*, trying several predefined random seeds), which may take some time to complete the whole process. 
 ```python
 python main_run.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942 --epoch=1
@@ -65,11 +67,11 @@ python main_run.py --source=findings_final_0814_seed1591536269_size10000 --targe
 
 # Table of contents
 1. [Data processing](#dataprocess)
-2. [Data-based Deep Transfer Learning](#DDTL)
+2. [Data-based Deep Transfer Learning (DDTL)](#DDTL)
     1. [DANN--unsupervised](#DDTL_unsupervised)
     2. [DANN--supervised](#DDTL_supervised)
 
-3. [Model-based Deep Transfer Learning ](#MDTL)
+3. [Model-based Deep Transfer Learning (MDTL)](#MDTL)
 
 4. [Baseline Model](#BL)
 
@@ -79,26 +81,28 @@ python main_run.py --source=findings_final_0814_seed1591536269_size10000 --targe
 > ## Data pre-processing  <a name="dataprocess"></a>
 In the transfer learning scenarios, the source and target data can be recorded/presented differently. Since deep neural network requires the same variable dimension in the source and target setting, the data pre-processing is important.
 
-*  **Kullback-Leibler divergence(KL)**      
+*  **Kullback-Leibler(KL) Divergence**      
 In this project, when the source and target data have the same variable dimension, we use Kullback-Leibler (KL) divergence to measure the distribution difference between the source and target settings. Because the main experiments are conducted on synthetic datasets, we just release these datasets in our */data/synthetic_data_v2/* directory.      
 The definition of KL-divergence is shown below (*t*  represents target, *s* represents source ).
 ![image](https://user-images.githubusercontent.com/39432361/152086546-b42438da-7f0e-411a-b08f-89cc445af061.png)
-As description in our paper, the caculation of KL can be simplfied in this context.
+As described in our paper, the calculation of KL can be simplified in this context.
 ![image](https://user-images.githubusercontent.com/39432361/152859024-3b78dc55-1927-4c68-bdb2-44d014140e3c.png)  
- In our code, we use `parse_model.py` to generate probability tables of difference datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: making sure the existance of probability tables before the calculation of KL value between them. Running `parse_model.py`  before running`distribution.py`.)
+ In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distribution.py`.)
 
 
 * **Zero Padding**   
-Data in the source setting may have/often has different dimensions than data extracted from the target setting. Therefore, before building models, the source and target data should be mapped into the same space. Our program solve this problem by **padding extra zeros** so that data from different settings have the same dimensionality.   
+Data in the source setting may have and often does have diﬀerent dimensions than data extracted from the target setting. Therefore, before building models, the source and target data should be mapped into the same space. Our program solve this problem by **padding extra zeros** so that data from different settings have the same dimensionality.   
 Even though all the data in the released synthetic datasets have the same dimensionality in both the source and target settings, we still include this **zero padding** method in `data_preprocess.py` for situations where you might have data with different dimensions.
 
 After this recalibration of the data, we use all of the source data for model training and split our target data into different portions, for training, validation, or testing in the following models.   
 
 
 * **Data Splitting**  
-During experiments, the dataset needs to be splitted into different portions for difference purpose--training, testing, validation. In `data_procesing.py`, the associated methods are defined to split the dataset.  
-In our experiments, due to the synthetic data being balanced distributed, and the dataset is split in the order of rows. However, if your dataset is skewed, you might need to change our methods of data splitting into stratified splitting ones, which are also included in `data_procesing.py`.        
-(e.g.: changing `prepare_datasets_returnSourceVal` to `prepare_datasets_stratify_returnSourceVal`)
+During experiments, the dataset needs to be split into different portions for different purposes--training, testing, validation. In `data_procesing.py`, the associated methods are defined to split the dataset.     
+
+In our experiments, due to the synthetic data being distributed in a balanced fashion, the dataset is split in by rows. However, if your dataset is skewed, you might need to change the methods of data splitting into stratiﬁed splitting ones, which are also included in `data_procesing.py`. 
+
+(e.g.: change `prepare_datasets_returnSourceVal` to `prepare_datasets_stratify_returnSourceVal`)
 
 &nbsp;
 
@@ -108,13 +112,13 @@ In our experiments, due to the synthetic data being balanced distributed, and th
 
 
 > ## Data-based Deep Transfer Learning (DDTL) <a name="DDTL"></a>
-**In DDTL section,  we apply the Domain Adversarial Neural Networks [(DANN)](https://arxiv.org/abs/1505.07818)**.  
-DANN works in three scenarios: the target training data have class labels (DANN_supervised); the target training data do not have any class label (DANN_unsupervised); a portion of the target training data have class labels (DANN_semisupervised). We have two separated code file for the first two scenarios. For the third scenario, users need to adjust the code or the structure of input data accordingly. 
+**In the DDTL section, we apply the Domain Adversarial Neural Networks [(DANN)](https://arxiv.org/abs/1505.07818)**.  
+DANN works in three scenarios: the target training data have class labels (DANN_supervised); the target training data do not have any class labels (DANN_unsupervised); a portion of the target training data have class labels (DANN_semi-supervised). We have two separated code files for the first two scenarios. For the third scenario, users need to adjust the code or the structure of input data accordingly. 
 For Domain Adversarial Neural Networks(DANN), the *Loss function* is defined as below:
 ![image](https://user-images.githubusercontent.com/39432361/152067006-54cb0fef-d557-47f0-81eb-de2f3ddc39d4.png)
 
 
-In our code, we use `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. View our work in a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
+In our code, we use `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
 
 For the network structure, it is defined in `feedforward.py`. If you want to modify the network structure used in the DANN model, you can modify the corresponding part of that .py file.
 
@@ -123,11 +127,9 @@ For the network structure, it is defined in `feedforward.py`. If you want to mod
 Related code: 
 `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`
 
-In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
+In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of the Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
 
-
-
-Run the following code to train the DDTL model under an unsupervised setting---all of input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to train the DDTL model under an unsupervised setting---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.    
 ```python 
 #run program using default hyperparameters---train all models with different combination of source and target datasets
 python dann_synthetic_noTargetLabel_noTargetVal.py
@@ -136,7 +138,7 @@ python dann_synthetic_noTargetLabel_noTargetVal.py
 python dann_synthetic_noTargetLabel_noTargetVal.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
 
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of input data (.csv files of source and target data) are defideclaredned in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program using default hyperparameters---calculate AUC values from all of the models derived from different combinations of target and source dataset
 python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
