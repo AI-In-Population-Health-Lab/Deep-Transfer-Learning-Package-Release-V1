@@ -152,9 +152,9 @@ python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-o
 Related code: 
 `dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py`
 
- In the supervised DANN, both source and target training data is be used in training the Label Classifier. Both target and source data are used in training Feature Generator and Domain Classifier. 
+ In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
 
- In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+ In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program using default hyperparameters---train all models with different combination of source and target datasets
 python dann_synthetic_withTargetLabel.py
@@ -163,7 +163,7 @@ python dann_synthetic_withTargetLabel.py
 python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
  
-And run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program using default hyperparameters---calculate AUC values from all of the models derived from different
 python dann_synthetic_withTargetLabel_outputAUC.py`
@@ -173,13 +173,13 @@ python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --sou
 ``` 
  
 
-(Note: in our code, we have already defined the default hyperparameters -- like *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, trade_off=1.0, etc.*. Those hyperparameters can be changed via [`argparse`](https://docs.python.org/3/library/argparse.html) on command line).
+(Note: in our code, we have already defined the default hyperparameters -- like *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, trade_off=1.0, etc.*. Those hyperparameters can be changed via [`argparse`](https://docs.python.org/3/library/argparse.html) on the command line).
 
 &nbsp;
 
 > ## Model-based Deep Transfer Learning (MDTL) <a name="MDTL"></a>
-Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using a few target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer; among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.    
-Since the MDTL module relies on the [learned source model](#BL), make sure all the learned source model exists before fine-tuning them.
+Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using some of the target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer. Among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.    
+Since the MDTL module relies on the [learned source model](#BL), make sure all the learned source model exist before fine-tuning them.
 
 
 * **MDTL_Tune1** --- `model-based-TL-TuneLast1Layer.py`    
@@ -189,7 +189,7 @@ Since the MDTL module relies on the [learned source model](#BL), make sure all t
 For each model, source and target data (.csv file) are fed into models, for training and evaluating. After that, programs will return trained models and save a .txt file recording information of source, target data, accuracy, and AUC during training.
 
 In **MDTL**, we fine-tuned the parameters based on the original source model.    
-Based on the structure of Neural Network and the definition of PyTorch, we froze parameters in specefic layers in specific missions.   
+Based on the structure of Neural Network and the definition of PyTorch, we froze parameters in specific layers in specific missions.   
 For example, in the task of **MDTL_Tune2**, we tuned the parameters in the last two layers; therefore, we froze the parameters in the first layer during the following training under the target setting.  
 ```python 
 # freeze parameters in the first layer.
@@ -198,8 +198,8 @@ for param in classifier.fc1.parameters():
 ```
 
 
-So for the specific tasks, we froze specific parameters, and ran the code below to obtain our models:  
-For **MDTL_Tune1**, the parameters of the first two layers are frozen and the souce model is trained under the target setting.
+For the specific tasks, we froze specific parameters, and ran the code below to obtain our models:  
+For **MDTL_Tune1**, the parameters of the first two layers are frozen and the source model is trained under the target setting.
 ```python 
 # run it in the command line, to obtain MDTL_Tune1 model---fine-tuning all of the models derived from different combination of source and target dataset
 python model-based-TL-TuneLast1Layer.py
@@ -237,10 +237,10 @@ Based on the dataset used to train the model, we defined three baseline models. 
 + `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
 + `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
 
-In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through command line.
+In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
 
-1. **BL_source**: using the source training dataset to train a model
-, and obtaining a trained model under the source setting;
+1. **BL_source**: use the source training dataset to train a model
+, and obtain a trained model under the source setting;
 	```pyrhon
 	#train different source models based on different souce datasets with default parameters
 	python learnSourceModel.py
@@ -258,7 +258,7 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	```
 
 
-2. **BL_target**: using the target training dataset to train a model, and obtaining a trained model under the target setting;
+2. **BL_target**: use the target training dataset to train a model, and obtain a trained model under the target setting;
 	```pyrhon
 	#train different target models based on different target datasets with default parameters
 	python learnTargetModel.py
@@ -275,7 +275,7 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
-3. **BL_combined**: using both the source and target training datasets to train a model, and obtaining a trained model under the combined setting 
+3. **BL_combined**: use both the source and target training datasets to train a model, and obtain a trained model under the combined setting 
 	```pyrhon
 	#using  all of target dataset to train learnSourceTargetModel (with defualt hyperparameters)
 	python learnSourceTargetModel.py
