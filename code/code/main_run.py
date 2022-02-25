@@ -9,11 +9,11 @@ import argparse
 
 def main(args: argparse.Namespace):
 
-    target = "--target="+str(args.target) if  (args.target) else ''
-    source = '--source='+str(args.source) if  (args.source) else ''
+    target = "--target "+str(' '.join(args.target)) if  (args.target) else ''
+    source = '--source '+str(' '.join(args.source)) if  (args.source) else ''
     seed = '--seed='+str(args.seed) if  (args.seed) else ''
     epoch = '--epoch=' +str(args.epoch) if (args.epoch) else ''
-
+    
     print("\n--------Run Data-based Deep Transfer Learning model---------")  
     print('1.DANN--unsupervised \n')
     os.system('python dann_synthetic_noTargetLabel_noTargetVal.py '+target+' '+source+' '+seed+' '+epoch)
@@ -57,9 +57,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='PyTorch DTL')
     parser.add_argument('--seed', default=1024, type=int,
                         help='seed for initializing training. ')
-    parser.add_argument('--source', '--source_path', default='',
+    parser.add_argument('--source', '--source_path', default='',type=str, nargs='+',
                         help='path of source data',dest='source')
-    parser.add_argument('--target', '--target_path', default='',
+    parser.add_argument('--target', '--target_path', default='',type=str, nargs='+',
                         help='path of target data',dest='target')
     parser.add_argument('--epoch', default=10, type=int, metavar='N',
                         help='number of total epochs to run')
