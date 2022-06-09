@@ -23,6 +23,8 @@ Package:
 - [x] PyTorch (version--1.7.1) 
 - [x] torchvision (version--0.8.2)  
 - [x] qpsolvers (version--1.8.0)
+- [x] pandas
+- [x] sklearn
 
 The configuration can be set by `conda` as below:  
 ```
@@ -30,6 +32,8 @@ conda create --name TL python=3.8 anaconda
 conda activate TL
 conda install pytorch==1.7.1 torchvision==0.8.2  -c pytorch
 pip install qpsolvers==1.8.0
+pip install pandas
+pip install sklearn
 ```
 
 (Note: If you are using torchvision and pytorch that are not compatible with certain versions of Python, or if your version of torchvision is not compatible with your version of PyTorch, you may face some tricky bugs when running our code.)
@@ -144,20 +148,22 @@ In the unsupervised DANN, the Label Classifier is only trained by source trainin
 
 Run the following code to train the DDTL model under an unsupervised setting---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.    
 ```python 
+#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
+python dann_synthetic_noTargetLabel_noTargetVal.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
 #run program using default hyperparameters---train all models with different combination of source and target datasets
 python dann_synthetic_noTargetLabel_noTargetVal.py
 
-#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv)
-python dann_synthetic_noTargetLabel_noTargetVal.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
 
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
+#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv),, specified seed(1), specified epoch(1)
+python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
 #run program using default hyperparameters---calculate AUC values from all of the models derived from different combinations of target and source dataset
 python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
 
-#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv).
-python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
 &nbsp;
 
@@ -169,26 +175,104 @@ Related code:
 
  In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
+#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
+python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
 #run program using default hyperparameters---train all models with different combination of source and target datasets
 python dann_synthetic_withTargetLabel.py
 
-#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv).
-python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
  
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
+#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1) 
+python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
 #run program using default hyperparameters---calculate AUC values from all of the models derived from different
 python dann_synthetic_withTargetLabel_outputAUC.py`
 
-#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv).  
-python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ``` 
  
 
 (Note: in our code, we have already defined the default hyperparameters -- like *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, trade_off=1.0, etc.*. Those hyperparameters can be changed via [`argparse`](https://docs.python.org/3/library/argparse.html) on the command line).
 
 &nbsp;
+
+
+> ## Baseline Model <a name="BL"></a>  
+Based on the dataset used to train the model, we defined three baseline models (baseline model is required for MDTL from the next part). The corresponding codes for each baseline model are shown as below:   
+ 
++ `learnSourceModel.py` and `learnSourceModel_prob.py`--using the source training dataset to train a model;
++ `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
++ `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
+
+In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
+
+1. **BL_source**: use the source training dataset to train a model
+, and obtain a trained model under the source setting;
+	```python
+	#train learnSourceModel on specified source dataset-findings_final_0814_seed1591536269_size10000.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
+	python learnSourceModel.py --lr=0.02 --epochs=20 --source=findings_final_0814_seed1591536269_size10000 --seed=14942
+
+	#train different source models based on different souce datasets with default parameters
+	python learnSourceModel.py
+
+	```
+
+	Run `learnSourceModel_prob.py` to get `AUROC` values of BL_source model under the setting (need to run `learnSourceModel.py` first).
+
+	```python
+	#get AUC of model derived from source dataset--source=findings_final_0814_seed1591536269_size10000.csv,initial random seed = 14942.
+	python learnSourceModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
+
+	#calculate AUC of all the learned source model derived from different source datasets
+	python learnSourceModel_prob.py
+
+	```
+
+
+2. **BL_target**: use the target training dataset to train a model, and obtain a trained model under the target setting;
+	```python
+	# train learnTargetModel on specified target dataset-findings_final_0814_seed-53154026_size50.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
+	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --lr=0.02 --epochs=20 --seed=14942
+
+	#train different target models based on different target datasets with default parameters
+	python learnTargetModel.py
+
+	```
+	
+	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting (need to run `learnTargetModel.py` first).  
+	```python
+	#get AUC of model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv,initial random seed = 14942.
+	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
+
+	#calculate AUC of all the learned target model derived from different target datasets
+	python learnTargetModel_prob.py
+
+	```
+
+3. **BL_combined**: use both the source and target training datasets to train a model, and obtain a trained model under the combined setting 
+	```python
+	# using target dataset--findings_final_0814_seed-53154026_size50.csv to train learnSourceTargetModel derived from specific source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.   
+	python learnSourceTargetModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
+
+	#using  all of target dataset to train learnSourceTargetModel (with defualt hyperparameters)
+	python learnSourceTargetModel.py
+
+	```
+
+	Run `learnSourceTargetModel_prob.py` to get `AUROC` values of BL_combined model under the setting (need to run `learnSourceTargetModel.py` first).
+	```python
+	# get AUC of SourceTargetModel derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv and source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.
+	python learnSourceTargetModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
+
+	#calculate AUC of all the learned SourceTargetModel derived from different target and source datasets
+	python learnSourceTargetModel_prob.py
+
+	```
+
+&nbsp;
+
 
 > ## Model-based Deep Transfer Learning (MDTL) <a name="MDTL"></a>
 Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using some of the target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer. Among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.    
@@ -214,98 +298,39 @@ for param in classifier.fc1.parameters():
 For the specific tasks, we froze specific parameters, and ran the code below to obtain our models:  
 For **MDTL_Tune1**, the parameters of the first two layers are frozen and the source model is trained under the target setting.
 ```python 
+##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.  
+python model-based-TL-TuneLast1Layer.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+
 # run it in the command line, to obtain MDTL_Tune1 model---fine-tuning all of the models derived from different combination of source and target dataset
 python model-based-TL-TuneLast1Layer.py
 
-##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.  
-python model-based-TL-TuneLast1Layer.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ```
 
 For **MDTL_Tune2**, the parameters of the first layer are frozen and the source model is trained under the target setting.
 ```python 
+##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.    
+python model-based-TL-TuneLast2Layers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+
 # run it in the command line, to obtain MDTL_Tune2 model---fine-tuning all of the models derived from different combination of source and target dataset
 python model-based-TL-TuneLast2Layers.py
 
-##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.    
-python model-based-TL-TuneLast2Layers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ```
 
 For **MDTL_Tune_ALL**, all of the parameters are fine-tuned under the target setting.
 ```python 
+##run program with specified learning rate (0.02),on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.
+python model-based-TL-TuneAllLayers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+
 # run it in the command line, to obtain MDTL_Tune_All model---fine-tuning all of the models derived from different combination of source and target dataset
 python model-based-TL-TuneAllLayers.py
 
-##run program with specified learning rate (0.02),on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.
-python model-based-TL-TuneAllLayers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 ```
 
 
 &nbsp;
 
 
-> ## Baseline Model <a name="BL"></a>  
-Based on the dataset used to train the model, we defined three baseline models. The corresponding codes for each baseline model are shown as below:   
- 
-+ `learnSourceModel.py` and `learnSourceModel_prob.py`--using the source training dataset to train a model;
-+ `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
-+ `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
 
-In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
-
-1. **BL_source**: use the source training dataset to train a model
-, and obtain a trained model under the source setting;
-	```pyrhon
-	#train different source models based on different souce datasets with default parameters
-	python learnSourceModel.py
-
-	#train learnSourceModel on specified source dataset-findings_final_0814_seed1591536269_size10000.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
-	python learnSourceModel.py --lr=0.02 --epochs=20 --source=findings_final_0814_seed1591536269_size10000 --seed=14942
-	```
-	Run `learnSourceModel_prob.py` to get `AUROC` values of BL_source model under the setting.
-	```pyrhon
-	#calculate AUC of all the learned source model derived from different source datasets
-	python learnSourceModel_prob.py
-
-	# get AUC of model derived from source dataset--source=findings_final_0814_seed1591536269_size10000.csv,initial random seed = 14942.
-	python learnSourceModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
-	```
-
-
-2. **BL_target**: use the target training dataset to train a model, and obtain a trained model under the target setting;
-	```pyrhon
-	#train different target models based on different target datasets with default parameters
-	python learnTargetModel.py
-
-	# train learnTargetModel on specified target dataset-findings_final_0814_seed-53154026_size50.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
-	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --lr=0.02 --epochs=20 --seed=14942
-	```
-	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting.  
-	```pyrhon
-	#calculate AUC of all the learned target model derived from different target datasets
-	python learnTargetModel_prob.py
-
-	# get AUC of model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv,initial random seed = 14942.
-	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
-	```
-
-3. **BL_combined**: use both the source and target training datasets to train a model, and obtain a trained model under the combined setting 
-	```pyrhon
-	#using  all of target dataset to train learnSourceTargetModel (with defualt hyperparameters)
-	python learnSourceTargetModel.py
-
-	# using target dataset--findings_final_0814_seed-53154026_size50.csv to train learnSourceTargetModel derived from specific source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.   
-	python learnSourceTargetModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
-	```
-	Run `learnSourceTargetModel_prob.py` to get `AUROC` values of BL_combined model under the setting.
-	```pyrhon
-	#calculate AUC of all the learned SourceTargetModel derived from different target and source datasets
-	python learnSourceTargetModel_prob.py
-
-	# get AUC of SourceTargetModel derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv and source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.
-	python learnSourceTargetModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
-	```
-
-&nbsp;
 
 
 > ## Main Results and Conclusion <a name="conclusion"></a>
