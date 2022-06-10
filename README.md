@@ -83,7 +83,8 @@ findings_final_0814_seed1033059257_size2000 \
     1. [DANN--unsupervised](#DDTL_unsupervised)
     2. [DANN--supervised](#DDTL_supervised)
 4. [Model-based Deep Transfer Learning (MDTL)](#MDTL)
-5. [Main Results, Conclusion, and Citation](#conclusion)
+5. [Main Results and Conclusion](#conclusion)
+6. [Citation](#citation)
 
 
 
