@@ -5,9 +5,9 @@ Infectious disease case detection that is developed in one setting (source) and 
 Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University, under the MIT license.
 
 ----
-**In the following section, we use this README.md file to briefly explain how our code works. Further information can be found in the to-be-published manuscript and related references.**
+In the following section, we use this README.md file to briefly explain how our code works. Further information can be found in the to-be-published manuscript and related references.
 
-----
+
 
 ### Configuration  
 Language
