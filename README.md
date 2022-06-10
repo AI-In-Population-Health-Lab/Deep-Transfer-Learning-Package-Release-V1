@@ -91,11 +91,7 @@ findings_final_0814_seed1033059257_size2000 \
 In the transfer learning scenarios, the source and target data can be recorded/presented differently. Since deep neural network requires the same variable dimension in the source and target setting, the data pre-processing is important.
 
 *  **Kullback-Leibler(KL) Divergence**      
-In this project, when the source and target data have the same variable dimension, we use Kullback-Leibler (KL) divergence to measure the distribution difference between the source and target settings. Because the main experiments are conducted on synthetic datasets, we just release these datasets in our */data/synthetic_data_v2/* directory.      
-The definition of KL-divergence is shown below (*t*  represents target, *s* represents source ).
-![image](https://user-images.githubusercontent.com/39432361/152086546-b42438da-7f0e-411a-b08f-89cc445af061.png)
-As described in our paper, the calculation of KL can be simplified in this context.
-![image](https://user-images.githubusercontent.com/39432361/152859024-3b78dc55-1927-4c68-bdb2-44d014140e3c.png)  
+In this project, when the source and target data have the same variable dimension, we use Kullback-Leibler (KL) divergence to measure the distribution difference between the source and target settings. Because the main experiments are conducted on synthetic datasets, we just release these datasets in our */data/synthetic_data_v2/* directory.       
  In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distribution.py`.)
 
 
