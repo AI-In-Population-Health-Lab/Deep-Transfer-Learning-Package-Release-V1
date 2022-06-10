@@ -96,8 +96,8 @@ In this project, when the source and target data have the same variable dimensio
 
 
 * **Zero Padding**   
-Data in the source setting may have and often does have diﬀerent dimensions than data extracted from the target setting. Therefore, before building models, the source and target data should be mapped into the same space. Our program solve this problem by **padding extra zeros** so that data from different settings have the same dimensionality.   
-Even though all the data in the released synthetic datasets have the same dimensionality in both the source and target settings, we still include this **zero padding** method in `data_preprocess.py` for situations where you might have data with different dimensions.
+Data in the source setting may have and often does have diﬀerent dimensions than data extracted from the target setting. Therefore, before building models, the source and target data should be mapped into the same space. Our program solve this problem by padding extra zeros so that data from different settings have the same dimensionality.   
+Even though all the data in the released synthetic datasets have the same dimensionality in both the source and target settings, we still include this zero padding method in `data_preprocess.py` for situations where you might have data with different dimensions.
 
 After this recalibration of the data, we use all of the source data for model training and split our target data into different portions, for training, validation, or testing in the following models.   
 
