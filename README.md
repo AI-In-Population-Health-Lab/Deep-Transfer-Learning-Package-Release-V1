@@ -5,7 +5,7 @@
 
 **We simulated multiple transfer learning scenarios that vary with respect to the target training size and the extent of dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared the performance of Domain Adversarial Neural Networks (DANN) that use data from a training source and a deep transfer learning (MDTL) method that use models obtained from the source, with baseline models. Baseline models include source model, a target model, and a model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
 
-**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University under the MIT license.**
+**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University, under the MIT license.**
 
 
 
