@@ -3,7 +3,7 @@
 
 
 
-**We simulated multiple transfer learning scenarios that vary with respect to the target training size and the extent of dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared the performance of Domain Adversarial Neural Networks (DANN) that use data from a training source and a deep transfer learning (MDTL) method that use models obtained from the source, with baseline models. Baseline models include source model, a target model, and a model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
+**We simulated multiple transfer learning scenarios that vary with respect to the target training size and the extent of dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared the performance of Domain Adversarial Neural Networks (DANN) that use data from a training source and a deep transfer learning (MDTL) method that use models obtained from the source, with baseline models. Baseline models include source model, a target model, and a model that was developed using the combination of source and target training data. **
 
 **Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University, under the MIT license.**
 
@@ -89,8 +89,8 @@ findings_final_0814_seed1033059257_size2000 \
     1. [DANN--unsupervised](#DDTL_unsupervised)
     2. [DANN--supervised](#DDTL_supervised)
 4. [Model-based Deep Transfer Learning (MDTL)](#MDTL)
-5. [Main Results and Conclusion](#conclusion)
-6. [Citation](#citation)
+5. [Main Results, Conclusion, and Citation](#conclusion)
+
 
 
 > ## Data pre-processing  <a name="dataprocess"></a>
@@ -332,9 +332,9 @@ python model-based-TL-TuneAllLayers.py
 
 
 
-> ## Main Results and Conclusion <a name="conclusion"></a>
+> ## Main Results, Conclusion, and Citation <a name="conclusion"></a>
 
-&nbsp; **Our experiments show that simply combining source and target data for modeling does not work well. Both MDTL and DANN perform better than baseline models when the source and target distribution is not largely different (KL is 1), and the target setting has few training samples (size <1000). MDTL models reach a similar performance as DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be useful when the source and target are similar, and the target training data is insufficient. Sharing a well-developed model can be sufficient.**
+&nbsp; **Our experiments show that Simply combining source and target data for modeling does not work well, as expected. Both DANN and MDTL performed better than baseline models when the source and target distribution are not largely different (KL is close to 1) and the target setting has few training samples (fewer than 1000). The performance level of MDTL was similar to that of DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be able to facilitate healthcare data or model sharing to enhance infectious disease case detection. Deep transfer learning may be useful when the source and target are similar, and the target training data are sparse. Sharing a well-developed model can achieve performance that is similar to sharing data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon. **
 
 
 
