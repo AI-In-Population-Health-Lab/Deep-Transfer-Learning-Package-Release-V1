@@ -1,9 +1,10 @@
 # Deep Transfer Learning
 Infectious disease case detection that is developed in one setting (source) and based on electronic health records (EHRs) often faces a performance drop in a new setting (target), which may result from differences in the two settings. Considering both the similarities and the dissimilarities between the two settings, deep transfer learning (DTL) may offer an effective way of improving the re-usability of source knowledge in a target setting. We conducted a study that explored whether and when DTL can be useful for infectious disease case detection among emergency department visits. We simulated multiple transfer learning scenarios that vary with respect to the target training size and the extent of dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared the performance of Domain Adversarial Neural Networks (DANN) that use data from a training source and a deep transfer learning (MDTL) method that use models obtained from the source, with baseline models. Baseline models include source model, a target model, and a model that was developed using the combination of source and target training data. 
 
-----
-**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University, under the MIT license.**
 
+Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University, under the MIT license.
+
+----
 **In the following section, we use this README.md file to briefly explain how our code works. Further information can be found in the to-be-published manuscript and related references.**
 
 ----
