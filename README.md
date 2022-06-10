@@ -1,11 +1,11 @@
 # Deep Transfer Learning
-**Electronic Medical Record (EMR) based infectious disease case detection often faces performance drop in a new setting, which may result from differences in population distribution, EMR system implementation, and hospital administrations. Considering both the similarities and the dissimilarities between a source setting and a target setting, transfer learning may offer an effective way of improving the re-usability of source knowledge in a target setting. This study aims to explore when and how deep transfer learning is useful for infectious disease case detection.**  
+**Infectious disease case detection that is developed in one setting (source) and based on electronic health records (EHRs) often faces a performance drop in a new setting (target), which may result from differences in the two settings. Considering both the similarities and the dissimilarities between the two settings, deep transfer learning (DTL) may offer an effective way of improving the re-usability of source knowledge in a target setting. This study explored whether and when DTL can be useful for infectious disease case detection among emergency department visits.**  
 
 
 
-**We simulated multiple transfer scenarios that vary in the target training size and the dissimilarity between the source and target settings measured by the Kullback–Leibler (KL) Divergence. We compared Domain Adversarial Neural Networks (DANN), a classic source data-based deep transfer learning method, source Model-based Deep Transfer Learning (MDTL), and baseline models, including a source model, a target model, and a combined model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
+**We simulated multiple transfer learning scenarios that vary with respect to the target training size and the extent of dissimilarity between the source and target settings (measured by the Kullback–Leibler divergence, KL). We compared the performance of Domain Adversarial Neural Networks (DANN) that use data from a training source and a deep transfer learning (MDTL) method that use models obtained from the source, with baseline models. Baseline models include source model, a target model, and a model that was developed using the combination of source and target training data. We have summarized our research findings in a manuscript, which will be submitted to a peer-reviewed journal soon.**
 
-**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from a transfer learning package by [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which is under MIT license.**
+**Through this GitHub repository, we publicly share the main research codes and simulated datasets so that other researchers can leverage them for further analysis. Our codes are derived from an open-source transfer learning library [Transfer-Learning-Library](https://github.com/thuml/Transfer-Learning-Library), which was  developed and released by Machine Learning Group, School of Software, Tsinghua University under the MIT license.**
 
 
 
@@ -84,15 +84,13 @@ findings_final_0814_seed1033059257_size2000 \
 
 # Table of contents
 1. [Data processing](#dataprocess)
-2. [Data-based Deep Transfer Learning (DDTL)](#DDTL)
+2. [Baseline Model](#BL)
+3. [Data-based Deep Transfer Learning (DDTL)](#DDTL)
     1. [DANN--unsupervised](#DDTL_unsupervised)
     2. [DANN--supervised](#DDTL_supervised)
-
-3. [Model-based Deep Transfer Learning (MDTL)](#MDTL)
-
-4. [Baseline Model](#BL)
-
+4. [Model-based Deep Transfer Learning (MDTL)](#MDTL)
 5. [Main Results and Conclusion](#conclusion)
+6. [Citation](#citation)
 
 
 > ## Data pre-processing  <a name="dataprocess"></a>
@@ -123,80 +121,6 @@ In our experiments, due to the synthetic data being distributed in a balanced fa
 
 &nbsp;
 
-
-
-
-
-
-> ## Data-based Deep Transfer Learning (DDTL) <a name="DDTL"></a>
-**In the DDTL section, we apply the Domain Adversarial Neural Networks [(DANN)](https://arxiv.org/abs/1505.07818)**.  
-DANN works in three scenarios: the target training data have class labels (DANN_supervised); the target training data do not have any class labels (DANN_unsupervised); a portion of the target training data have class labels (DANN_semi-supervised). We have two separated code files for the first two scenarios. For the third scenario, users need to adjust the code or the structure of input data accordingly. 
-For Domain Adversarial Neural Networks(DANN), the *Loss function* is defined as below:
-![image](https://user-images.githubusercontent.com/39432361/152067006-54cb0fef-d557-47f0-81eb-de2f3ddc39d4.png)
-
-
-In our code, we use `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
-
-For the network structure, it is defined in `feedforward.py`. If you want to modify the network structure used in the DANN model, you can modify the corresponding part of that .py file.
-
-&nbsp;    
-> ### i. DANN(unsupervised) <a name="DDTL_unsupervised"></a>
-Related code: 
-`dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`
-
-In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of the Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
-
-Run the following code to train the DDTL model under an unsupervised setting---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.    
-```python 
-#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
-python dann_synthetic_noTargetLabel_noTargetVal.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
-
-#run program using default hyperparameters---train all models with different combination of source and target datasets
-python dann_synthetic_noTargetLabel_noTargetVal.py
-
-``` 
-
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
-```python 
-#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv),, specified seed(1), specified epoch(1)
-python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
-
-#run program using default hyperparameters---calculate AUC values from all of the models derived from different combinations of target and source dataset
-python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
-
-``` 
-&nbsp;
-
-> ### ii. DANN (supervised)  <a name="DDTL_supervised"></a>
-Related code: 
-`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py`
-
- In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
-
- In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
-```python 
-#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
-python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
-
-#run program using default hyperparameters---train all models with different combination of source and target datasets
-python dann_synthetic_withTargetLabel.py
-
-``` 
- 
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
-```python 
-#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1) 
-python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
-
-#run program using default hyperparameters---calculate AUC values from all of the models derived from different
-python dann_synthetic_withTargetLabel_outputAUC.py`
-
-``` 
- 
-
-(Note: in our code, we have already defined the default hyperparameters -- like *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, trade_off=1.0, etc.*. Those hyperparameters can be changed via [`argparse`](https://docs.python.org/3/library/argparse.html) on the command line).
-
-&nbsp;
 
 
 > ## Baseline Model <a name="BL"></a>  
@@ -274,6 +198,81 @@ In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_s
 &nbsp;
 
 
+
+
+> ## Data-based Deep Transfer Learning (DDTL) <a name="DDTL"></a>
+**In the DDTL section, we apply the Domain Adversarial Neural Networks [(DANN)](https://arxiv.org/abs/1505.07818)**.  
+DANN works in three scenarios: the target training data have class labels (DANN_supervised); the target training data do not have any class labels (DANN_unsupervised); a portion of the target training data have class labels (DANN_semi-supervised). We have two separated code files for the first two scenarios. For the third scenario, users need to adjust the code or the structure of input data accordingly. 
+For Domain Adversarial Neural Networks(DANN), the *Loss function* is defined as below:
+![image](https://user-images.githubusercontent.com/39432361/152067006-54cb0fef-d557-47f0-81eb-de2f3ddc39d4.png)
+
+
+In our code, we use `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
+
+For the network structure, it is defined in `feedforward.py`. If you want to modify the network structure used in the DANN model, you can modify the corresponding part of that .py file.
+
+&nbsp;    
+> ### i. DANN(unsupervised) <a name="DDTL_unsupervised"></a>
+Related code: 
+`dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`
+
+In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of the Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
+
+Run the following code to train the DDTL model under an unsupervised setting---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.    
+```python 
+#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
+python dann_synthetic_noTargetLabel_noTargetVal.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
+#run program using default hyperparameters---train all models with different combination of source and target datasets
+python dann_synthetic_noTargetLabel_noTargetVal.py
+
+``` 
+
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+```python 
+#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv),, specified seed(1), specified epoch(1)
+python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
+#run program using default hyperparameters---calculate AUC values from all of the models derived from different combinations of target and source dataset
+python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
+
+``` 
+&nbsp;
+
+> ### ii. DANN (supervised)  <a name="DDTL_supervised"></a>
+Related code: 
+`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py`
+
+ In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
+
+ In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+```python 
+#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
+python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
+#run program using default hyperparameters---train all models with different combination of source and target datasets
+python dann_synthetic_withTargetLabel.py
+
+``` 
+ 
+Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+```python 
+#run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1) 
+python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
+
+#run program using default hyperparameters---calculate AUC values from all of the models derived from different
+python dann_synthetic_withTargetLabel_outputAUC.py`
+
+``` 
+ 
+
+(Note: in our code, we have already defined the default hyperparameters -- like *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, trade_off=1.0, etc.*. Those hyperparameters can be changed via [`argparse`](https://docs.python.org/3/library/argparse.html) on the command line).
+
+&nbsp;
+
+
+
+
 > ## Model-based Deep Transfer Learning (MDTL) <a name="MDTL"></a>
 Model-based transfer learning keeps the source model’s network structure and a few parameters unchanged and tunes the remaining parameters using some of the target training data.  We use the following structure for a source model: an input layer, two hidden layers, and an output layer. Among these layers, there are three sets of parameters. Thus, there are three model-based transfer learning strategies: tuning all three sets of parameters (**MDTL_Tune_All**), tuning two sets of parameters that involve the two hidden layers and the output layer (**MDTL_Tune2**), and tuning one set of parameters that involves the second hidden layer and the output layer (**MDTL_Tune1**). Because we will compare data-based transfer learning with model-based transfer learning, we choose the same structure as we used in the DANN feature modeling part. That is, two fully connected layers with 128 nodes in each layer was chosen as the hidden layers for the neural network architecture.    
 Since the MDTL module relies on the [learned source model](#BL), make sure all the learned source model exist before fine-tuning them.
@@ -338,3 +337,4 @@ python model-based-TL-TuneAllLayers.py
 &nbsp; **Our experiments show that simply combining source and target data for modeling does not work well. Both MDTL and DANN perform better than baseline models when the source and target distribution is not largely different (KL is 1), and the target setting has few training samples (size <1000). MDTL models reach a similar performance as DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be useful when the source and target are similar, and the target training data is insufficient. Sharing a well-developed model can be sufficient.**
 
 
+> ## Citation  <a name="citation"></a>
