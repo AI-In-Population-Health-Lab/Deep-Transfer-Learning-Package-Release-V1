@@ -337,4 +337,7 @@ python model-based-TL-TuneAllLayers.py
 &nbsp; **Our experiments show that simply combining source and target data for modeling does not work well. Both MDTL and DANN perform better than baseline models when the source and target distribution is not largely different (KL is 1), and the target setting has few training samples (size <1000). MDTL models reach a similar performance as DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be useful when the source and target are similar, and the target training data is insufficient. Sharing a well-developed model can be sufficient.**
 
 
+
+
+
 > ## Citation  <a name="citation"></a>
