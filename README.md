@@ -323,7 +323,7 @@ python model-based-TL-TuneAllLayers.py
 
 
 
-> ## Main Results, Conclusion, and Citation <a name="conclusion"></a>
+> ## Main Results, and Conclusion <a name="conclusion"></a>
 
 &nbsp;Our experiments show that Simply combining source and target data for modeling does not work well, as expected. Both DANN and MDTL performed better than baseline models when the source and target distribution are not largely different (KL is close to 1) and the target setting has few training samples (fewer than 1000). The performance level of MDTL was similar to that of DANN models (mean of AUROCs: 0.83 vs. 0.84, P value of Wilcoxon signed-rank test = 0.15). Transfer learning may be able to facilitate healthcare data or model sharing to enhance infectious disease case detection. Deep transfer learning may be useful when the source and target are similar, and the target training data are sparse. Sharing a well-developed model can achieve performance that is similar to sharing data.  
 
