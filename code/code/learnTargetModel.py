@@ -258,19 +258,9 @@ if __name__ == '__main__':
     seed_paths = args.seed 
     target_train_paths = args.target
 
-
-   
-    d_kl_dict = {}
-    d_kl_dict['findings_final_0814'] = 0
-    d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
-    d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
-    d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
-    d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-
  
 
-    with open(results_fold_loc + "/targetModel_log4.txt", "w") as f:
+    with open(results_fold_loc + "/targetModel_learning_log.txt", "w") as f:
         f.write(f"target_train_path,seed_index,args.seed,validate_acc,test_acc\n")
         for i in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[i]
