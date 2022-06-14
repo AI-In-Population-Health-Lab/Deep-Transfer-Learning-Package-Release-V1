@@ -265,7 +265,7 @@ if __name__ == '__main__':
     seed_paths = args.seed 
     #print(source_train_paths,len(source_train_paths))
 
-    with open(results_fold_loc + "/sourceModel_result.txt", "w") as f:
+    with open(results_fold_loc + "/sourceModel_learning_log.txt", "w") as f:
         f.write(f"d_kl,source_train_path,seed_index,args.seed,validate_acc,test_acc\n")
         for i in range(len(source_train_paths)):
             args.source_train_path = source_train_paths[i]
