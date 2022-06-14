@@ -236,16 +236,7 @@ Related code:
 
  In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
 
- In our project, we run the following codes to train the DDTL model under an unsupervised setting----all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
-```python 
-#run program with specified learning rate (0.02), specified trade-off(3), specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1)
-python dann_synthetic_withTargetLabel.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
 
-#run program using default hyperparameters---train all models with different combination of source and target datasets
-python dann_synthetic_withTargetLabel.py
-
-``` 
- 
 Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1) 
@@ -289,10 +280,10 @@ For the specific tasks, we froze specific parameters, and ran the code below to 
 For **MDTL_Tune1**, the parameters of the first two layers are frozen and the source model is trained under the target setting.
 ```python 
 ##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.  
-python model-based-TL-TuneLast1Layer.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+python model-based-TL-TuneLast1Layer_prob.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune1 model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneLast1Layer.py
+python model-based-TL-TuneLast1Layer_prob.py
 
 ```
 
@@ -302,7 +293,7 @@ For **MDTL_Tune2**, the parameters of the first layer are frozen and the source 
 python model-based-TL-TuneLast2Layers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune2 model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneLast2Layers.py
+python model-based-TL-TuneLast2Layers_prob.py
 
 ```
 
@@ -312,7 +303,7 @@ For **MDTL_Tune_ALL**, all of the parameters are fine-tuned under the target set
 python model-based-TL-TuneAllLayers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune_All model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneAllLayers.py
+python model-based-TL-TuneAllLayers_prob.py
 
 ```
 
