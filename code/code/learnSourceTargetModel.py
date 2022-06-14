@@ -269,10 +269,7 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
-    #seed_paths = [14942, 43277, 79280, 8463, 12650]
-
-    # source_train_paths = ['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']
-
+   
 
 
     with open(results_fold_loc + "/combineModel_learning_log.txt", "w") as f:
