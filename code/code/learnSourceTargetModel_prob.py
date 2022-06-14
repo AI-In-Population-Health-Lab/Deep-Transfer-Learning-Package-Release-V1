@@ -216,18 +216,11 @@ def generateIntegarArray(size):
 
 if __name__ == '__main__':
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                         'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                         'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                         'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                         'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
-                         'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
-                         'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
-                         'findings_final_0814-portion1ita27round9_seed273823007_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-                         'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+                      'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                      'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                      'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
+                      'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                      'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
 
     target_train_paths= ['findings_final_0814_seed-53154026_size50',
@@ -288,9 +281,7 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
     d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-    d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
     source_train_paths = args.source
     seed_paths = args.seed
@@ -298,7 +289,7 @@ if __name__ == '__main__':
 
 
 
-    with open(results_fold_loc + "/auc_sourceModel_log11202021.txt", "w") as f:
+    with open(results_fold_loc + "/combineModel_acc_auc.txt", "w") as f:
         f.write(f"d_kl,source_train_path,seed_index,seed,test_acc1,avg_auc,auc_I,auc_M,auc_P,auc_R\n")
         for i in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[i]
