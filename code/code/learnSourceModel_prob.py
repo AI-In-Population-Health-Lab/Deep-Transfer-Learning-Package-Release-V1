@@ -254,9 +254,7 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
     d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-    d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
 
     source_train_paths = args.source
