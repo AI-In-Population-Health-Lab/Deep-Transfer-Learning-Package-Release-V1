@@ -203,18 +203,11 @@ def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
 
 if __name__ == '__main__':
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                         'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                         'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                         'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                         'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
-                         'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
-                         'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
-                         'findings_final_0814-portion1ita27round9_seed273823007_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-                         'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+                      'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                      'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                      'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
+                      'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                      'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
 
     target_train_paths= ['findings_final_0814_seed-53154026_size50',
@@ -274,9 +267,7 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
     d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-    d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
     #seed_paths = [14942, 43277, 79280, 8463, 12650]
 
@@ -284,7 +275,7 @@ if __name__ == '__main__':
 
 
 
-    with open(results_fold_loc + "/combineModel_log11202021_v3.txt", "w") as f:
+    with open(results_fold_loc + "/combineModel_learning_log.txt", "w") as f:
         f.write(f"d_kl,source_train_path,target_train_path,seed_index,args.seed,validate_acc,test_acc\n")
         for i in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[i]
@@ -302,33 +293,4 @@ if __name__ == '__main__':
                     print(
                         f"{d_kl},{args.source_train_path},{args.target_train_path},{seed_index},{args.seed},{validate_acc},{test_acc}\n")
 
-    # source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-    #                       'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-    #                       'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-    #                       'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-    #                       'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
-    #
-    # target_train_paths = ['findings_final_0814_seed-1133351443_size400',
-    #                       'findings_final_0814_seed-1227021050_size300',
-    #                       'findings_final_0814_seed756906437_size200',
-    #                       'findings_final_0814_seed-53154026_size50'
-    #                       ]
-    #
-    # with open(results_fold_loc + "/combineModel_log11162021_v2.txt", "w") as f:
-    #     f.write(f"d_kl,source_train_path,target_train_path,seed_index,args.seed,validate_acc,test_acc\n")
-    #     for i in range(len(target_train_paths)):
-    #         args.target_train_path = target_train_paths[i]
-    #         for j in range(len(source_train_paths)):
-    #             args.source_train_path = source_train_paths[j]
-    #             d_kl = -1
-    #             for key in d_kl_dict.keys():
-    #                 if key in args.source_train_path:
-    #                     d_kl = d_kl_dict[key]
-    #             for seed_index in range(len(seed_paths)):
-    #                 args.seed = seed_paths[seed_index]
-    #                 validate_acc, test_acc = main(args)
-    #                 f.write(
-    #                     f"{d_kl},{args.source_train_path},{args.target_train_path},{seed_index},{args.seed},{validate_acc},{test_acc}\n")
-    #                 print(
-    #                     f"{d_kl},{args.source_train_path},{args.target_train_path},{seed_index},{args.seed},{validate_acc},{test_acc}\n")
+  
