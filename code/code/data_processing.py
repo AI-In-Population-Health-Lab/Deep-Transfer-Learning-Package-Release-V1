@@ -3,14 +3,7 @@ import math
 from dataset import Dataset
 from collections import Counter
 
-# hard-coded
-#source_train_path = "data/synthetic_data_v2/source_train/source_train.csv"
-#target_train_path = "data/synthetic_data_v2/target_train/slcmodel_0810_topazslc_seed-1174017692_size800.csv"
-#target_test_path = "data/synthetic_data_v2/target_test/slcmodel_0810_topazslc_seed-1530187143_size7000.csv"
 
-#source_train_path = "data/real_world_data/SLC_findings_final_0814_M2F.csv"
-#target_train_path = "data/real_world_data/AC_findings_final_0814_M2F.csv"
-#target_test_path = "data/real_world_data/AC_findings_final_1415_M2F.csv"
 
 def parse_csv(csv_path, label_key):
     """
@@ -58,10 +51,7 @@ def prepare_datasets(source_train_path, target_train_path, target_test_path, lab
     target_test_features, target_test_labels = parse_csv(target_test_path, label_key)
     target_test_features_dummies = pd.get_dummies(target_test_features)
 
-    # print("source_train_feature_dummy:" + str(source_train_features_dummies.shape))
-    # print("target_train_feature_dummy:"+ str(target_train_features_dummies_overall.shape))
-    # print("target_test_feature_dummy:" + str(target_test_features_dummies.shape))
-
+ 
     # ensure that all feature data have the same set of columns
     all_feature_cols = source_train_features_dummies.keys().union(target_train_features_dummies_overall.keys().union(target_test_features_dummies.keys()))
 
@@ -77,15 +67,7 @@ def prepare_datasets(source_train_path, target_train_path, target_test_path, lab
     for col in target_test_diff_cols:
         target_test_features_dummies[col] = [0 for _ in range(target_test_features_dummies.shape[0])]
     
-    # split target data into training and validation
-    # previously, we use first few as validation,
-    #target_val_size = math.floor(len(target_train_features_dummies_overall.index) * validation_split)
-    #target_val_features_dummies = target_train_features_dummies_overall.loc[0:target_val_size, :]
-    #target_val_labels = target_train_labels_overall.loc[0:target_val_size]
-    #target_train_features_dummies = target_train_features_dummies_overall.loc[(target_val_size+1):, :]
-    #target_train_labels = target_train_labels_overall.loc[(target_val_size+1):]
-
-    # now, we change to last few as validation set
+    # split target data into training and validation, last few as validation set
 
     target_val_size = math.floor(len(target_train_features_dummies_overall.index) * validation_split)
     target_train_size = len(target_train_features_dummies_overall.index) - target_val_size
@@ -148,23 +130,7 @@ def prepare_datasets_returnSourceVal(source_train_path, target_train_path, targe
     source_train_features_dummies_overall = source_train_features_dummies
     source_train_labels_overall = source_train_labels
 
-    # split target data into training and validation
-    # previously, we use first few as validation,
-    # target_val_size = math.floor(len(target_train_features_dummies_overall.index) * validation_split)
-    # target_val_features_dummies = target_train_features_dummies_overall.loc[0:target_val_size, :]
-    # target_val_labels = target_train_labels_overall.loc[0:target_val_size]
-    # target_train_features_dummies = target_train_features_dummies_overall.loc[(target_val_size+1):, :]
-    # target_train_labels = target_train_labels_overall.loc[(target_val_size+1):]
-
-    # now, we change to last few as validation set
-    # target_val_size = math.floor(len(target_train_features_dummies_overall.index) * validation_split)
-    # target_train_size = len(target_train_features_dummies_overall.index) - target_val_size
-    # target_train_features_dummies = target_train_features_dummies_overall.loc[0:target_train_size, :]
-    # target_train_labels = target_train_labels_overall.loc[0:target_train_size]
-    # target_val_features_dummies = target_train_features_dummies_overall.loc[(target_train_size + 1):, :]
-    # target_val_labels = target_train_labels_overall.loc[(target_train_size + 1):]
-    # target_train_dataset = Dataset(target_train_features_dummies, target_train_labels)
-    # target_val_dataset = Dataset(target_val_features_dummies, target_val_labels)
+    
 
     target_test_dataset = Dataset(target_test_features_dummies, target_test_labels)
     ## newly added target train dataset
