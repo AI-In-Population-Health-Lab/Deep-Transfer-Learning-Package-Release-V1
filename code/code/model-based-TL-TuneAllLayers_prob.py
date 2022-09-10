@@ -309,7 +309,7 @@ if __name__ == '__main__':
         seed_dict[tem_key]=tem_seed
 
 
-    with open(results_fold_loc + "/auc_sourceModel_tuneAll_log11202021.txt", "w") as f:
+    with open(results_fold_loc + "/auc_sourceModel_tuneAll.txt", "w") as f:
         f.write(f"d_kl,source_train_path,source_seed,target_train_path,size,seed,test_acc1,avg_auc,auc_I,auc_M,auc_P,auc_R\n")
         for j in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[j]
