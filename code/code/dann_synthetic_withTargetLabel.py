@@ -323,42 +323,7 @@ if __name__ == '__main__':
                         help='path of target data',dest='target')
 
     args = parser.parse_args()
-    #print(args)
-
-    # source_train_paths = getFileList(source_train_fold_loc)
-    # print(source_train_paths)
-
-    # target_train_paths = getFileList(target_train_fold_loc)
-    # print(target_train_paths)
-
-    # source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-    #  'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-    #  'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-    #  'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-    #  'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-    #  'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
-
-    # target_train_paths= ['findings_final_0814_seed238506806_size1000',
-    #   'findings_final_0814_seed1033059257_size2000',
-    #   'findings_final_0814_seed678668699_size3000',
-    #   'findings_final_0814_seed-1872107095_size4000',
-    #   'findings_final_0814_seed-190708218_size5000',
-    #   'findings_final_0814_seed2132231585_size10000']
-
-    # target_train_paths = ['findings_final_0814_seed-972126700_size500',
-    #                       'findings_final_0814_seed-1331694080_size100']
-
-    # target_train_paths = ['findings_final_0814_seed-53154026_size50',
-    #                       'findings_final_0814_seed-1133351443_size400',
-    #                       'findings_final_0814_seed-1227021050_size300',
-    #                       'findings_final_0814_seed450152107_size10',
-    #                       'findings_final_0814_seed756906437_size200']
-
-    # target_train_paths = ['findings_final_0814_seed-53154026_size50',
-    #                       'findings_final_0814_seed-1133351443_size400',
-    #                       'findings_final_0814_seed-1227021050_size300',
-    #                       'findings_final_0814_seed450152107_size10',
-    #                       'findings_final_0814_seed756906437_size200']
+    
 
     
     d_kl_dict = {}
@@ -381,7 +346,7 @@ if __name__ == '__main__':
 
     getLearned_model_list()
 
-    with open(results_fold_loc + "dann_log11212021_remaining_400.txt", "w") as f:
+    with open(results_fold_loc + "dann_log.txt", "w") as f:
         f.write(f"d_kl,source_train_path,target_train_path,seed_index,seed,validate_acc,test_acc\n")
         for j in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[j]
