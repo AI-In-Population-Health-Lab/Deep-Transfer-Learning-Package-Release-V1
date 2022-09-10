@@ -372,13 +372,7 @@ if __name__ == '__main__':
                         help='path of target data',dest='target')
 
     args = parser.parse_args()
-    #print(args)
 
-    # source_train_paths = getFileList(source_train_fold_loc)
-    # print(source_train_paths)
-
-    # target_train_paths = getFileList(target_train_fold_loc)
-    # print(target_train_paths)
 
  
     d_kl_dict = {}
@@ -402,7 +396,7 @@ if __name__ == '__main__':
 
     #getLearned_model_list()
 
-    with open(results_fold_loc + "dann_log11212021_get_acc_auc.txt", "w") as f:
+    with open(results_fold_loc + "dann_log_get_acc_auc.txt", "w") as f:
         f.write(f"d_kl,source_train_path,target_train_path,seed_index,seed,validate_acc,test_acc\n")
         for j in range(len(target_train_paths)):
             args.target_train_path = target_train_paths[j]
