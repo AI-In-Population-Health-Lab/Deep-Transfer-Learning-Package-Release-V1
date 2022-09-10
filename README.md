@@ -124,66 +124,20 @@ Based on the dataset used to train the model, we defined three baseline models (
 In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
 
 1. **BL_source**: use the source training dataset to train a model
-, and obtain a trained model under the source setting;
+, obtain a trained model under the source setting, and get `AUROC` values of BL_source model under the setting;
 	```python
-	#train learnSourceModel on specified source dataset-findings_final_0814_seed1591536269_size10000.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
-	python learnSourceModel.py --lr=0.02 --epochs=20 --source=findings_final_0814_seed1591536269_size10000 --seed=14942
-
-	#train different source models based on different souce datasets with default parameters
-	python learnSourceModel.py
-
-	```
-
-	Run `learnSourceModel_prob.py` to get `AUROC` values of BL_source model under the setting (need to run `learnSourceModel.py` first).
-
-	```python
-	#get AUC of model derived from source dataset--source=findings_final_0814_seed1591536269_size10000.csv,initial random seed = 14942.
-	python learnSourceModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
-
-	#calculate AUC of all the learned source model derived from different source datasets
-	python learnSourceModel_prob.py
-
+	python learnSourceModel_v2.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
 	```
 
 
-2. **BL_target**: use the target training dataset to train a model, and obtain a trained model under the target setting;
+2. **BL_target**: use the target training dataset to train a model, obtain a trained model under the target setting, and get `AUROC` values of BL_target model under the setting;
 	```python
-	# train learnTargetModel on specified target dataset-findings_final_0814_seed-53154026_size50.csv, learning rate=0.02, epoch=20, initial random seed = 14942.
-	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --lr=0.02 --epochs=20 --seed=14942
-
-	#train different target models based on different target datasets with default parameters
-	python learnTargetModel.py
-
-	```
-	
-	Run `learnTargetModel_prob.py` to get `AUROC` values of BL_target model under the setting (need to run `learnTargetModel.py` first).  
-	```python
-	#get AUC of model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv,initial random seed = 14942.
-	python learnTargetModel_prob.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
-
-	#calculate AUC of all the learned target model derived from different target datasets
-	python learnTargetModel_prob.py
-
+	python learnTargetModel_v2.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
-3. **BL_combined**: use both the source and target training datasets to train a model, and obtain a trained model under the combined setting 
+3. **BL_combined**: use both the source and target training datasets to train a model, obtain a trained model under the combined setting, and get `AUROC` values of BL_combined model under the setting
 	```python
-	# using target dataset--findings_final_0814_seed-53154026_size50.csv to train combined Model derived from specific source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.   
-	python learnCombineModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
-
-	#using  all of target dataset to train combined Model (with defualt hyperparameters)
-	python learnCombineModel.py
-
-	```
-
-	Run `learnCombineModel_prob.py` to get `AUROC` values of BL_combined model under the setting (need to run `learnSourceTargetModel.py` first).
-	```python
-	# get AUC of combined Model derived from target dataset--target=findings_final_0814_seed-53154026_size50.csv and source dataset--findings_final_0814_seed1591536269_size10000.csv, initial random seed = 14942.
-	python learnCombineModel_prob.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
-
-	#calculate AUC of all the learned combined Model derived from different target and source datasets
-	python learnCombineModel_prob.py
-
+	python learnCombineModel_v2.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
 &nbsp;
