@@ -83,20 +83,11 @@ def get_kl(filename1, filename2):
 
 if __name__ == "__main__":
     fileLoc ="../../data/"
-    #filename1 = fileLoc + "learned_source_model/findings_final_0814-portion1ita2round4.bif"
-
     filenameLoc1 = fileLoc + "source_model/"
-    #dirname = "data/learned_source_model/"
     filename2 = fileLoc + "target_model/findings_final_0814.bif"
-    # for filename in os.listdir(dirname):
-        # if (filename.endswith(".bif")):
-            # get_avg_kl(os.path.join(dirname, filename), filename2)
-    # get_avg_kl(filename1, filename2)
-    #get_kl(filename1, filename2)
     result={}
     for filename in os.listdir(filenameLoc1):
         if (filename.endswith(".bif")):
-
             kl= get_kl(filename2, filename)  # KL(target,source)
             result[kl] = filename
     import collections
