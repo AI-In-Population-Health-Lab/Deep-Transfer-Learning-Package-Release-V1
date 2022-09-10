@@ -25,17 +25,11 @@ def main(args: argparse.Namespace):
 
     print("\n-------- Run Baseline Model ---------")
     print("1. TRAIN SOURCE MODEL \n")
-    os.system('python learnSourceModel.py  '+source+' '+seed+' '+epoch)
-    print('\n')
-    os.system('python learnSourceModel_prob.py '+source+' '+seed+' '+epoch)
+    os.system('python learnSourceModel_v2.py '+source+' '+seed+' '+epoch)
     print("\n 2. TRAIN TARGET MODEL \n")
-    os.system('python learnTargetModel.py  '+target+' '+seed+' '+epoch)
-    print('\n')
-    os.system('python learnTargetModel_prob.py '+target+' '+seed+' '+epoch)
+    os.system('python learnTargetModel_v2.py '+target+' '+seed+' '+epoch)
     print("\n 3. TRAIN combined MODEL \n")
-    os.system('python learnSourceTargetModel.py  '+target+' '+source+' '+seed+' '+epoch)
-    print('\n')
-    os.system('python learnSourceTargetModel_prob.py '+target+' '+source+' '+seed+' '+epoch)
+    os.system('python learnSourceTargetModel_v2.py '+target+' '+source+' '+seed+' '+epoch)
 
 
     print("\n-------- Run Model-based Deep Transfer Learning model ---------")
