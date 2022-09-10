@@ -410,9 +410,6 @@ if __name__ == '__main__':
                         d_kl = d_kl_dict[key]
                 for seed_index in range(len(seed_paths)):
                     args.seed = seed_paths[seed_index]
-                    #temp = args.source_train_path + "-" + args.target_train_path + "-" + str(args.seed) + "-dannWithTargetLabel.pth"
-                    # if temp not in learned_model_list:
-                    #     print(temp)
                     best_acc1,test_acc,avg_auc,auc_I,auc_M,auc_P,auc_R = main(args)
                     f.write(f"{d_kl},{args.source_train_path},{args.target_train_path},{seed_index},{args.seed},{best_acc1},{test_acc},{avg_auc},{auc_I},{auc_M},{auc_P},{auc_R}\n")
                     print(f"{d_kl},{args.source_train_path},{args.target_train_path},{seed_index},{args.seed},{best_acc1},{test_acc},{avg_auc},{auc_I},{auc_M},{auc_P},{auc_R}\n")
