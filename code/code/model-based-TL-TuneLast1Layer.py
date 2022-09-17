@@ -1,3 +1,4 @@
+from collections import Counter
 import random
 import time
 import warnings
@@ -5,7 +6,6 @@ import sys
 import argparse
 import copy
 import os
-
 import torch
 import torch.nn as nn
 import torch.nn.parallel
@@ -16,7 +16,6 @@ from torch.utils.data import DataLoader
 import torch.utils.data.distributed
 import torchvision.transforms as transforms
 import torch.nn.functional as F
-from collections import Counter
 
 import pandas as pd
 
@@ -25,13 +24,9 @@ from feedforward import BackboneClassifierNN
 from tools.utils import AverageMeter, ProgressMeter, accuracy, ForeverDataIterator
 from tools.transforms import ResizeImage
 from tools.lr_scheduler import StepwiseLR
-from data_processing import prepare_datasets,prepare_datasets_returnSourceVal,prepare_datasets_stratify_returnSourceVal
+from data_processing import prepare_datasets, prepare_datasets_stratify
 from feedforward import BackboneClassifierNN_M4
-from dataset import Dataset
 
-import numpy
-import csv
-from sklearn import metrics
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
@@ -40,7 +35,6 @@ target_train_fold_loc = '../../data/synthetic_data_v2/target_train/'
 target_test_fold_loc = '../../data/synthetic_data_v2/target_test/'
 results_fold_loc ='../../results/accuracy/'
 learned_model_fold_loc ='../../results/learned_model/learned_source_model/'
-prob_fold_loc ='../../results/auc/'
 
 
 def main(args: argparse.Namespace):
@@ -53,103 +47,150 @@ def main(args: argparse.Namespace):
                       'which can slow down your training considerably! '
                       'You may see unexpected behavior when restarting '
                       'from checkpoints.')
+
     cudnn.benchmark = True
+
     # data loading code
-    # create source model only by using source train and source validate data
-    # input -> FC -> relu -> FC -> relu -> output num_classes
-    # no softmax because that's handled by cross entropy loss already
     label_key = "diagnosis"
     validation_split = 0.125
 
     source_train_path = source_train_fold_loc + args.source_train_path + ".csv"
     target_train_path = target_train_fold_loc + args.target_train_path + ".csv"
     target_test_path = target_test_fold_loc + "findings_final_0814_seed-1494714102_size10000.csv"
-    learned_source_model_path = learned_model_fold_loc  + args.source_train_path  + "_" + str(args.seed) + ".pth"
+    source_model_path = learned_model_fold_loc + args.source_train_path + "_" + str(args.source_seed) + ".pth"
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "_" + str(args.source_seed) + "-tune-" \
-                            + args.target_train_path + "_" + str(args.seed) + "-all-layer_model.pth"
-    csvFilename = prob_fold_loc + "source_model_tuneAll_prob_" + args.source_train_path + "_" + str(args.seed) + ".csv"
-    source_train_dataset, source_val_dataset, target_test_dataset, _ = prepare_datasets_returnSourceVal(
-        source_train_path,
-        target_train_path,
-        target_test_path,
-        label_key,
-        validation_split)
+                            + args.target_train_path + "_" + str(args.seed) + "-1-layer_model.pth"
 
+    # source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets_stratify(source_train_path,
+    #                                                                                     target_train_path,
+    #                                                                                     target_test_path, label_key,
+    #                                                                                     validation_split)
 
-    test_loader = DataLoader(target_test_dataset, batch_size=args.batch_size, shuffle=False,
-                             num_workers=args.workers)
+    source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
+                                                                                        target_train_path,
+                                                                                        target_test_path, label_key,
+                                                                                         validation_split)
 
-    backbone_in_dim = source_train_dataset.features.shape[1]
-    print("source train input dimension:", backbone_in_dim)
-    print("source val input dimension:", source_val_dataset.features.shape[1])
-    print("target test input dimension:", target_test_dataset.features.shape[1])
+    train_dataset = target_train_dataset
+    val_dataset = target_val_dataset
+    test_dataset = target_test_dataset
+
+    train_loader = DataLoader(train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.workers,
+                              drop_last=True)
+    val_loader = DataLoader(val_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.workers)
+    test_loader = DataLoader(test_dataset, batch_size=args.batch_size, shuffle=False, num_workers=args.workers)
+
+    train_iter = ForeverDataIterator(train_loader)
+
+    # create source model only by using source train and source validate data
+    # input -> FC -> relu -> FC -> relu -> output num_classes
+    # no softmax because that's handled by cross entropy loss already
+
+    # backbone_in_dim = train_dataset.features.shape[1]
+    # print("input dimension:", backbone_in_dim)
+    # num_classes = len(Counter(train_dataset.labels).keys())
+
+    backbone_in_dim = train_dataset.features.shape[1]
+    print("input dimension:", backbone_in_dim)
     num_classes = len(Counter(source_train_dataset.labels).keys())
 
-    classifier = BackboneClassifierNN_M4(backbone_in_dim, num_classes).to(device)
 
-    print(classifier)
+    classifier = BackboneClassifierNN_M4(backbone_in_dim, num_classes).to(device)
+    # froze the first two layers, only tune the last layer
+    for param in classifier.fc1.parameters():
+        param.requires_grad = False
+    for param in classifier.fc2.parameters():
+        param.requires_grad = False
+
+    # load source model
+    print("load source model")
+    classifier.load_state_dict(torch.load(source_model_path))
+    # freeze bb layers (first two layers)
+
+    print("params to learn:")
+    for name, param in classifier.named_parameters():
+        if param.requires_grad == True:
+            print("\t", name)
 
     # define optimizer and lr scheduler
-    optimizer = SGD(classifier.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay, nesterov=True)
+    optimizer = SGD(classifier.parameters(), args.lr, momentum=args.momentum, weight_decay=args.weight_decay,
+                    nesterov=True)
+    lr_scheduler = StepwiseLR(optimizer, init_lr=args.lr, gamma=0.001, decay_rate=0.75)
 
+    # start training
+    best_acc1 = 0.
+    for epoch in range(args.epochs):
+        # train for one epoch
+        train(train_iter, classifier, optimizer, lr_scheduler, epoch, args)
+
+        # evaluate on validation set
+        acc1 = validate(val_loader, classifier, args)
+
+        # remember best acc@1 and save checkpoint
+        if acc1 > best_acc1:
+            best_classifier = copy.deepcopy(classifier.state_dict())
+            torch.save(classifier.state_dict(), learned_tl_model_path)  # newly added to save the best models
+            best_acc1 = acc1
+
+    print("best_validation_acc1 = {:3.1f}".format(best_acc1))
     # load source model
     print("load best model")
     classifier.load_state_dict(torch.load(learned_tl_model_path))
-    print(classifier)
     # Print model's state_dict
     print("Model's state_dict:")
     for param_tensor in classifier.state_dict():
         print(param_tensor, "\t", classifier.state_dict()[param_tensor].size())
+
     # evaluate on test set
-    test_acc1,total_y_true,total_y_pred1,total_y_pred2,total_y_pred3,total_y_pred4,total_y_diagnosis,total_y_correct = validate(test_loader, classifier, args)
+    test_acc1 = validate(test_loader, classifier, args)
     print("test_acc1 = {:3.1f}".format(test_acc1))
-    avg_auc,auc_I,auc_M,auc_P,auc_R = printListToFile(csvFilename,total_y_true,total_y_pred1,total_y_pred2,total_y_pred3,total_y_pred4,total_y_diagnosis,total_y_correct)
-    return test_acc1, avg_auc,auc_I,auc_M,auc_P,auc_R
+    return best_acc1, test_acc1
 
 
-def printListToFile(fileName,total_y_true,total_y_pred1,total_y_pred2,total_y_pred3,total_y_pred4,total_y_diagnosis,total_y_correct):
-    a = numpy.asarray(total_y_true).astype(int)
-    b1 = numpy.asarray(total_y_pred1)
-    b2 = numpy.asarray(total_y_pred2)
-    b3 = numpy.asarray(total_y_pred3)
-    b4 = numpy.asarray(total_y_pred4)
-    c = numpy.asarray(total_y_diagnosis).astype(int)
-    d = numpy.asarray(total_y_correct).astype(int)
-    df = pd.DataFrame({"y_true": a, "p0": b1, "p1": b2, "p2": b3, "p3": b4, "prediction": c, "correct": d})
-    df.to_csv(fileName, index=False)
+def train(train_source_iter: ForeverDataIterator, model: nn.Module, optimizer: SGD, lr_scheduler: StepwiseLR,
+          epoch: int, args: argparse.Namespace):
+    batch_time = AverageMeter('Time', ':5.2f')
+    data_time = AverageMeter('Data', ':5.2f')
+    losses = AverageMeter('Loss', ':6.2f')
+    progress = ProgressMeter(
+        args.iters_per_epoch,
+        [batch_time, data_time, losses],
+        prefix="Epoch: [{}]".format(epoch))
 
-    # calculate auc
-    # I:0; M:1; P:2; R:3
-    df['I_category'] = 'F'
-    df.loc[df['y_true'] == 0, "I_category"] = "T"
-    df['M_category'] = 'F'
-    df.loc[df['y_true'] == 1, "M_category"] = "T"
-    df['P_category'] = 'F'
-    df.loc[df['y_true'] == 2, "P_category"] = "T"
-    df['R_category'] = 'F'
-    df.loc[df['y_true'] == 3, "R_category"] = "T"
-    fpr, tpr, thresholds = metrics.roc_curve(df['I_category'], df['p0'], pos_label='T')
-    auc_I = metrics.auc(fpr, tpr)
-    fpr, tpr, thresholds = metrics.roc_curve(df['M_category'], df['p1'], pos_label='T')
-    auc_M = metrics.auc(fpr, tpr)
-    fpr, tpr, thresholds = metrics.roc_curve(df['P_category'], df['p2'], pos_label='T')
-    auc_P = metrics.auc(fpr, tpr)
-    fpr, tpr, thresholds = metrics.roc_curve(df['R_category'], df['p3'], pos_label='T')
-    auc_R = metrics.auc(fpr, tpr)
-    avg_auc = (auc_I + auc_M + auc_P + auc_R) / 4
-    return avg_auc,auc_I,auc_M,auc_P,auc_R
+    # switch to train mode
+    model.train()
+    end = time.time()
+    for i in range(args.iters_per_epoch):
+        lr_scheduler.step()
 
+        # measure data loading time
+        data_time.update(time.time() - end)
+
+        x_s, labels_s = next(train_source_iter)
+        x_s = x_s.to(device)
+        labels_s = labels_s.to(device)
+
+        # compute output
+        y_s = model(x_s)
+        loss = F.cross_entropy(y_s, labels_s)
+
+        # update meters
+        losses.update(loss.item(), x_s.size(0))
+
+        # compute gradient and do SGD step
+        optimizer.zero_grad()
+        loss.backward()
+        optimizer.step()
+
+        # measure elapsed time
+        batch_time.update(time.time() - end)
+        end = time.time()
+
+        if i % args.print_freq == 0:
+            progress.display(i)
 
 
 def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace):
-    total_y_pred1 = numpy.array([[]])
-    total_y_pred2 = numpy.array([[]])
-    total_y_pred3 = numpy.array([[]])
-    total_y_pred4 = numpy.array([[]])
-    total_y_diagnosis = numpy.array([[]])
-    total_y_correct = numpy.array([[]])
-    total_y_true = numpy.array([])
-
     batch_time = AverageMeter('Time', ':6.3f')
     losses = AverageMeter('Loss', ':.4e')
     top1 = AverageMeter('Acc@1', ':6.2f')
@@ -157,7 +198,7 @@ def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
         len(val_loader),
         [batch_time, losses, top1],
         prefix='Test: ')
-    
+
     # switch to evaluate mode
     model.eval()
 
@@ -183,36 +224,10 @@ def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
             if i % args.print_freq == 0:
                 progress.display(i)
 
-            probAll = torch.nn.functional.softmax(output, dim=1).cpu().numpy()
-            total_y_pred1 = numpy.append(total_y_pred1, probAll[:, 0])
-            total_y_pred2 = numpy.append(total_y_pred2, probAll[:, 1])
-            total_y_pred3 = numpy.append(total_y_pred3, probAll[:, 2])
-            total_y_pred4 = numpy.append(total_y_pred4, probAll[:, 3])
-            total_y_true = numpy.append(total_y_true, target.cpu().numpy())
-            _, diagnosis = output.topk(1, 1, True, True)
-            diagnosis = diagnosis.t()
-            total_y_diagnosis = numpy.append(total_y_diagnosis, diagnosis.cpu().numpy())
-            correct = diagnosis.eq(target.view(1, -1).expand_as(diagnosis))
-            total_y_correct = numpy.append(total_y_correct, correct.cpu().numpy())
-
-
         print(' * Acc@1 {top1.avg:.3f}'
               .format(top1=top1))
 
-    
-    return top1.avg,total_y_true,total_y_pred1,total_y_pred2,total_y_pred3,total_y_pred4,total_y_diagnosis,total_y_correct
-
-def generateIntegarArray(size):
-    list=[]
-    n = 0
-    while n<size:
-        temp = random.randint(0, 100000)
-        if temp not in list:
-            list.append(temp)
-            n = n+1
-    return list
-
-
+    return top1.avg
 
 
 if __name__ == '__main__':
@@ -257,7 +272,7 @@ if __name__ == '__main__':
                         metavar='LR', help='initial learning rate', dest='lr')
     parser.add_argument('--momentum', default=0.9, type=float, metavar='M',
                         help='momentum')
-    parser.add_argument('--wd', '--weight-decay',default=1e-3, type=float,
+    parser.add_argument('--wd', '--weight-decay', default=1e-3, type=float,
                         metavar='W', help='weight decay (default: 1e-3)',
                         dest='weight_decay')
     parser.add_argument('-p', '--print-freq', default=100, type=int,
@@ -274,14 +289,12 @@ if __name__ == '__main__':
     parser.add_argument('--target', '--target_path', default=target_train_paths,  nargs='+',
                         help='path of target data',dest='target')
 
+
     args = parser.parse_args()
 
-    
     source_train_paths = args.source
     seed_paths = args.seed 
     target_train_paths = args.target
-
-
 
 
     d_kl_dict = {}
@@ -291,11 +304,16 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
     d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-    d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
-    d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
 
-    seed_dict = {}
 
+
+    seed_dict={}
+    # seed_dict['findings_final_0814_seed1591536269_size10000']=79280
+    # seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
+    # seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
+    # seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
+    # seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
+    # seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
 
     files = os.listdir(learned_model_fold_loc)
     file_source = []
@@ -309,20 +327,20 @@ if __name__ == '__main__':
         seed_dict[tem_key]=tem_seed
 
 
-    with open(results_fold_loc + "/auc_sourceModel_tuneAll.txt", "w") as f:
-        f.write(f"d_kl,source_train_path,source_seed,target_train_path,size,seed,test_acc1,avg_auc,auc_I,auc_M,auc_P,auc_R\n")
-        for j in range(len(target_train_paths)):
-            args.target_train_path = target_train_paths[j]
-            size = target_train_paths[j].split("size")[1]
+    #assert (len(source_train_paths) == len(d_kl_dict.keys()))
+
+    for j in range(len(target_train_paths)):
+        args.target_train_path = target_train_paths[j]
+        size = target_train_paths[j].split("size")[1]
+        with open(results_fold_loc+"/model_tune1layer_log_" + size + ".txt", "w") as f:
+            f.write(f"d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc\n")
             for i in range(len(source_train_paths)):
                 args.source_train_path = source_train_paths[i]
-                args.source_seed = seed_dict[args.source_train_path]
                 try:
                     args.source_seed = seed_dict[args.source_train_path]
                 except KeyError:
                     print(f'Do not exist corresponding source model of {args.source_train_path}. Please train a source model before fine-tuning section !!!\n')
                     break
-
                 print(args.source_train_path, args.target_train_path)
                 d_kl = -1
                 for key in d_kl_dict.keys():
@@ -330,6 +348,8 @@ if __name__ == '__main__':
                         d_kl = d_kl_dict[key]
                 for seed_index in range(len(seed_paths)):
                     args.seed = seed_paths[seed_index]
-                    test_acc1, avg_auc, auc_I, auc_M, auc_P, auc_R = main(args)
+                    best_acc1, test_acc = main(args)
                     f.write(
-                        f"{d_kl},{args.source_train_path},{args.source_seed},{args.target_train_path},{size},{args.seed},{test_acc1},{avg_auc},{auc_I},{auc_M},{auc_P},{auc_R}\n")
+                        f"{d_kl},{args.source_train_path},{args.source_seed},{args.target_train_path},{args.seed},{best_acc1},{test_acc}\n")
+                    print(
+                        f"{d_kl},{args.source_train_path},{args.source_seed},{args.target_train_path},{args.seed},{best_acc1},{test_acc}\n")

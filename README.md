@@ -224,30 +224,30 @@ For the specific tasks, we froze specific parameters, and ran the code below to 
 For **MDTL_Tune1**, the parameters of the first two layers are frozen and the source model is trained under the target setting.
 ```python 
 ##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.  
-python model-based-TL-TuneLast1Layer_prob.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+python model-based-TL-TuneLast1Layer.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune1 model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneLast1Layer_prob.py
+python model-based-TL-TuneLast1Layer.py
 
 ```
 
 For **MDTL_Tune2**, the parameters of the first layer are frozen and the source model is trained under the target setting.
 ```python 
 ##run program with specified learning rate (0.02), on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.    
-python model-based-TL-TuneLast2Layers_prob.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+python model-based-TL-TuneLast2Layers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune2 model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneLast2Layers_prob.py
+python model-based-TL-TuneLast2Layers.py
 
 ```
 
 For **MDTL_Tune_ALL**, all of the parameters are fine-tuned under the target setting.
 ```python 
 ##run program with specified learning rate (0.02),on the model derived from source dataset-findings_final_0814_seed1591536269_size10000.csv, target dataset-indings_final_0814_seed-53154026_size50.csv.
-python model-based-TL-TuneAllLayers_prob.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
+python model-based-TL-TuneAllLayers.py --lr=0.02 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50
 
 # run it in the command line, to obtain MDTL_Tune_All model---fine-tuning all of the models derived from different combination of source and target dataset
-python model-based-TL-TuneAllLayers_prob.py
+python model-based-TL-TuneAllLayers.py
 
 ```
 

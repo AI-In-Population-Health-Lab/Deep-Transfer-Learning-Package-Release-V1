@@ -24,6 +24,8 @@ from data_processing import  prepare_datasets_combineSourceTarget
 import numpy
 from sklearn import metrics
 
+import pandas as pd
+
 sys.path.append('.')
 
 
