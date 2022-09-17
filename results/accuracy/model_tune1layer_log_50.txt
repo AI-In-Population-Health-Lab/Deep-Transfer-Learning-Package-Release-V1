@@ -1,0 +1,6 @@
+d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc
+0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,18807,80.0,58.59
+0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,44202,80.0,57.38
+0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,20252,80.0,51.06
+0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,18793,80.0,58.79
+0,findings_final_0814_seed1591536269_size10000,14942,findings_final_0814_seed-53154026_size50,30005,80.0,55.84
