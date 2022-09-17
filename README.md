@@ -117,9 +117,9 @@ In our experiments, due to the synthetic data being distributed in a balanced fa
 > ## Baseline Model <a name="BL"></a>  
 Based on the dataset used to train the model, we defined three baseline models (baseline model is required for MDTL from the next part). The corresponding codes for each baseline model are shown as below:   
  
-+ `learnSourceModel.py` and `learnSourceModel_prob.py`--using the source training dataset to train a model;
-+ `learnTargetModel.py` and `learnTargetModel_prob.py`--using the target training dataset to train a model;
-+ `learnSourceTargetModel.py` and `learnSourceTargetModel_prob.py` -- using both the source and target training datasets to train a model.
++ `learnSourceModel_v2.py` --using the source training dataset to train a model;
++ `learnTargetModel_v2.py` --using the target training dataset to train a model;
++ `learnCombineModel_v2.py` -- using both the source and target training datasets to train a model.
 
 In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
 
