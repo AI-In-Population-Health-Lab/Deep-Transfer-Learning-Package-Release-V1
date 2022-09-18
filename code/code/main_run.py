@@ -29,7 +29,7 @@ def main(args: argparse.Namespace):
     print("\n 2. TRAIN TARGET MODEL \n")
     os.system('python learnTargetModel_v2.py '+target+' '+seed+' '+epoch)
     print("\n 3. TRAIN combined MODEL \n")
-    os.system('python learnSourceTargetModel_v2.py '+target+' '+source+' '+seed+' '+epoch)
+    os.system('python learnCombineModel_v2.py '+target+' '+source+' '+seed+' '+epoch)
 
 
     print("\n-------- Run Model-based Deep Transfer Learning model ---------")
