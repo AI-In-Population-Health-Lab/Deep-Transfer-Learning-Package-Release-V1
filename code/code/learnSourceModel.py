@@ -309,13 +309,9 @@ def getAUROC(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
 if __name__ == '__main__':
 
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                      'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                      'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                      'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
-                      'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
-                      'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
+                      'findings_final_0814-portion1ita06round14_seed2016863826_size10000']
     
-    seed_paths = [14942, 43277, 79280, 8463, 12650]
+    seed_paths = [14942]
 
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
     parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
