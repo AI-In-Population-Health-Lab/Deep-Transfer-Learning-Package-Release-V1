@@ -47,7 +47,7 @@ to avoid unexpected bugs, we recommend that you run our code in the same configu
 ### Download and Run
 
 ```
-git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package.git
+git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package-Release-Sep2022.git
 
 cd Deep-Transfer-Learning-Package/code/code
 ```
@@ -93,7 +93,7 @@ In the transfer learning scenarios, the source and target data can be recorded/p
 
 *  **Kullback-Leibler(KL) Divergence**      
 In this project, when the source and target data have the same variable dimension, we use Kullback-Leibler (KL) divergence to measure the distribution difference between the source and target settings. Because the main experiments are conducted on synthetic datasets, we just release these datasets in our */data/synthetic_data_v2/* directory.       
- In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distribution.py`.)
+ In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distributions.py`.)
 
 
 * **Zero Padding**   
@@ -152,14 +152,14 @@ For Domain Adversarial Neural Networks(DANN), the *Loss function* is defined as 
 ![image](https://user-images.githubusercontent.com/39432361/152067006-54cb0fef-d557-47f0-81eb-de2f3ddc39d4.png)
 
 
-In our code, we use `dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
+In our code, we use `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
 
 For the network structure, it is defined in `feedforward.py`. If you want to modify the network structure used in the DANN model, you can modify the corresponding part of that .py file.
 
 &nbsp;    
 > ### i. DANN(unsupervised) <a name="DDTL_unsupervised"></a>
 Related code: 
-`dann_synthetic_noTargetLabel_noTargetVal.py`, `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`
+`dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`
 
 In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of the Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
 
@@ -176,7 +176,7 @@ python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
 
 > ### ii. DANN (supervised)  <a name="DDTL_supervised"></a>
 Related code: 
-`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py`
+`dann_synthetic_withTargetLabel_outputAUC.py`
 
  In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
 
