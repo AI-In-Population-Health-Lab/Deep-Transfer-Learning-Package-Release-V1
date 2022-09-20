@@ -64,11 +64,6 @@ def main(args: argparse.Namespace):
                             + args.target_train_path +  "_" + str(args.seed) +"-all-layer_model.pth"
 
 
-    # source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets_stratify(source_train_path,
-    #                                                                                     target_train_path,
-    #                                                                                     target_test_path, label_key,
-    #                                                                                     validation_split)
-
     source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
                                                                                         target_train_path,
                                                                                         target_test_path, label_key,
@@ -231,18 +226,11 @@ def validate(val_loader: DataLoader, model: nn.Module, args: argparse.Namespace)
 if __name__ == '__main__':
 
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-                         'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-                         'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                         'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                         'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
-                         'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
-                         'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
-                         'findings_final_0814-portion1ita27round9_seed273823007_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-                         'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-                         'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-                         'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
+                          'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
+                          'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                          'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
 
     target_train_paths= ['findings_final_0814_seed-53154026_size50',
@@ -257,6 +245,7 @@ if __name__ == '__main__':
                           'findings_final_0814_seed-1872107095_size4000',
                           'findings_final_0814_seed-190708218_size5000',
                           'findings_final_0814_seed2132231585_size10000']
+    
     seed_paths = [18807, 44202, 20252, 18793, 30005]
 
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
@@ -300,71 +289,15 @@ if __name__ == '__main__':
     target_train_paths = args.target
 
 
-    # source_train_paths = ['findings_final_0814_seed1591536269_size10000',
-    #                       'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
-    #                       'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-    #                       'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-    #                       'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-    #                       'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
-
-    # # source_train_paths = ['findings_final_0814-portion1ita27round9_seed273823007_size10000',
-    # #                       'findings_final_0814-portion1ita28round3_seed-279490714_size10000',
-    # #                       'findings_final_0814-portion1ita29round18_seed-1653352491_size10000',
-    # #                       'findings_final_0814-portion1ita21round14_seed-358819036_size10000',
-    # #                       'findings_final_0814-portion1ita21round14_seed174506763_size10000',
-    # #                       'findings_final_0814-portion1ita21round14_seed-1580326299_size10000',
-    # #                       'findings_final_0814-portion1ita21round14_seed1514764506_size10000']
-
-    # # target_train_paths = ['findings_final_0814_seed238506806_size1000',
-    # #                       'findings_final_0814_seed1033059257_size2000',
-    # #                       'findings_final_0814_seed678668699_size3000',
-    # #                       'findings_final_0814_seed-1872107095_size4000',
-    # #                       'findings_final_0814_seed-190708218_size5000',
-    # #                       'findings_final_0814_seed2132231585_size10000',
-    # #                       'findings_final_0814_seed-972126700_size500',
-    # #                       'findings_final_0814_seed-1331694080_size100']
-    # target_train_paths = ['findings_final_0814_seed-53154026_size50',
-    #                       'findings_final_0814_seed-1133351443_size400',
-    #                       'findings_final_0814_seed-1227021050_size300',
-    #                       'findings_final_0814_seed756906437_size200']
-
-    # # target_train_paths = ['findings_final_0814_seed2132231585_size10000',
-    # #                       'findings_final_0814_seed-190708218_size5000',
-    # #                       'findings_final_0814_seed-1872107095_size4000',
-    # #                       'findings_final_0814_seed678668699_size3000',
-    # #                       'findings_final_0814_seed1033059257_size2000',
-    # #                       'findings_final_0814_seed238506806_size1000',
-    # #                       'findings_final_0814_seed-972126700_size500',
-    # #                       'findings_final_0814_seed-1133351443_size400',
-    # #                       'findings_final_0814_seed-1227021050_size300',
-    # #                       'findings_final_0814_seed756906437_size200',
-    # #                       'findings_final_0814_seed-1331694080_size100',
-    # #                       'findings_final_0814_seed-53154026_size50']
-
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
     d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
-    d_kl_dict['findings_final_0814-portion1ita28round3'] = 25
     d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
 
     seed_dict={}
-    # seed_dict['findings_final_0814_seed1591536269_size10000']=14942#79280
-    # seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
-    # seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
-    # seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita27round9_seed273823007_size10000'] =14942
-    # seed_dict['findings_final_0814-portion1ita28round3_seed-279490714_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita29round18_seed-1653352491_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed-358819036_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed174506763_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed-1580326299_size10000']=8463
-    # seed_dict['findings_final_0814-portion1ita21round14_seed1514764506_size10000']=14942
 
     files = os.listdir(learned_model_fold_loc)
     file_source = []
@@ -383,7 +316,7 @@ if __name__ == '__main__':
     for j in range(len(target_train_paths)):
         args.target_train_path = target_train_paths[j]
         size = target_train_paths[j].split("size")[1]
-        with open(results_fold_loc+"/model_tuneAll_log11202021_" + size + ".txt", "w") as f:
+        with open(results_fold_loc+"/model_tuneAll" + size + ".txt", "w") as f:
             f.write(f"d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc\n")
             for i in range(len(source_train_paths)):
                 args.source_train_path = source_train_paths[i]
