@@ -229,7 +229,7 @@ if __name__ == '__main__':
                           'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
                           'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
                           'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
-                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
                           'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
 
