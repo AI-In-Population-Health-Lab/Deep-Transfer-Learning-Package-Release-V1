@@ -111,9 +111,9 @@ def main(args: argparse.Namespace):
     target_test_path = target_test_fold_loc + "findings_final_0814_seed-1494714102_size10000.csv"
     source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path, target_train_path, target_test_path, label_key, validation_split)
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "-" + args.target_train_path + "-" + str(
-        args.seed) + "-dannWithTargetLabel-newRun.pth"
+        args.seed) + "-dannWithTargetLabel.pth"
 
-    csvFilename = prob_fold_loc + "new_dann_withTargetLabel_model_prob_" + args.source_train_path + "_" + str(
+    csvFilename = prob_fold_loc + "dann_withTargetLabel_model_prob_" + args.source_train_path + "_" + str(
         args.seed) + ".csv"
 
     train_source_loader = DataLoader(source_train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.workers, drop_last=True)
@@ -318,7 +318,7 @@ if __name__ == '__main__':
                           'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
                           'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
                           'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
-                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000',
                           'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
 
