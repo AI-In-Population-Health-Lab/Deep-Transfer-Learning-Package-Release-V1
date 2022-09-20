@@ -204,9 +204,9 @@ Model-based transfer learning keeps the source model’s network structure and a
 Since the MDTL module relies on the [learned source model](#BL), make sure all the learned source model exist before fine-tuning them.
 
 
-* **MDTL_Tune1** --- `model-based-TL-TuneLast1Layer_prob.py`    
-* **MDTL_Tune2** --- `model-based-TL-TuneLast2Layers_prob.py`    
-* **MDTL_Tune_All** --- `model-based-TL-TuneAllLayers_prob.py`
+* **MDTL_Tune1** --- `model-based-TL-TuneLast1Layer.py`    
+* **MDTL_Tune2** --- `model-based-TL-TuneLast2Layers.py`    
+* **MDTL_Tune_All** --- `model-based-TL-TuneAllLayers.py`
     
 For each model, source and target data (.csv file) are fed into models, for training and evaluating. After that, programs will return trained models and save a .txt file recording information of source, target data, accuracy, and AUC during training.
 
