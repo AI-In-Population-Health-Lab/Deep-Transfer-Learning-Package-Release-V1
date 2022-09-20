@@ -61,7 +61,7 @@ def main(args: argparse.Namespace):
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "_" + str(args.source_seed) + "-tune-" \
                             + args.target_train_path + "_" + str(args.seed) + "-1-layer_model.pth"
 
-      source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
+    source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
                                                                                         target_train_path,
                                                                                         target_test_path, label_key,
                                                                                          validation_split)
