@@ -49,7 +49,7 @@ to avoid unexpected bugs, we recommend that you run our code in the same configu
 ```
 git clone https://github.com/AI-Public-Health/Deep-Transfer-Learning-Package-Release-Sep2022.git
 
-cd Deep-Transfer-Learning-Package/code/code
+cd Deep-Transfer-Learning-Package-Release-Sep2022/code/code
 ```
 
 #### Run the Whole Project
