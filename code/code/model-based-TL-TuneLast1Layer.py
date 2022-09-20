@@ -61,12 +61,7 @@ def main(args: argparse.Namespace):
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "_" + str(args.source_seed) + "-tune-" \
                             + args.target_train_path + "_" + str(args.seed) + "-1-layer_model.pth"
 
-    # source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets_stratify(source_train_path,
-    #                                                                                     target_train_path,
-    #                                                                                     target_test_path, label_key,
-    #                                                                                     validation_split)
-
-    source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
+      source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
                                                                                         target_train_path,
                                                                                         target_test_path, label_key,
                                                                                          validation_split)
@@ -295,18 +290,12 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
     d_kl_dict['findings_final_0814-portion1ita13round20'] = 5
     d_kl_dict['findings_final_0814-portion1ita16round14'] = 10
-    d_kl_dict['findings_final_0814-portion1ita21round14'] = 15
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
+    d_kl_dict['findings_final_0814-portion1ita29round18'] = 30
 
 
 
     seed_dict={}
-    # seed_dict['findings_final_0814_seed1591536269_size10000']=79280
-    # seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
-    # seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
-    # seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
 
     files = os.listdir(learned_model_fold_loc)
     file_source = []
@@ -325,7 +314,7 @@ if __name__ == '__main__':
     for j in range(len(target_train_paths)):
         args.target_train_path = target_train_paths[j]
         size = target_train_paths[j].split("size")[1]
-        with open(results_fold_loc+"/model_tune1layer_log_" + size + ".txt", "w") as f:
+        with open(results_fold_loc+"/model_tune1layer" + size + ".txt", "w") as f:
             f.write(f"d_kl,source_train_path,source_seed,target_train_path,seed,validate_acc,test_acc\n")
             for i in range(len(source_train_paths)):
                 args.source_train_path = source_train_paths[i]
