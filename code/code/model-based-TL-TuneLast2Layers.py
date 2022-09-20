@@ -62,10 +62,6 @@ def main(args: argparse.Namespace):
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "_" + str(args.source_seed) + "-tune-" \
                             + args.target_train_path +  "_" + str(args.seed) +"-2-layers_model.pth"
 
-    # source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets_stratify(source_train_path,
-    #                                                                                     target_train_path,
-    #                                                                                     target_test_path, label_key,
-    #                                                                                     validation_split)
 
     source_train_dataset, target_train_dataset, target_val_dataset, target_test_dataset = prepare_datasets(source_train_path,
                                                                                         target_train_path,
@@ -235,14 +231,24 @@ if __name__ == '__main__':
     source_train_paths = ['findings_final_0814_seed1591536269_size10000',
                           'findings_final_0814-portion1ita06round14_seed2016863826_size10000',
                           'findings_final_0814-portion1ita13round20_seed1708886178_size10000',
-                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',
-                          'findings_final_0814-portion1ita21round14_seed1879396416_size10000',
-                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000']
+                          'findings_final_0814-portion1ita16round14_seed1948253030_size10000',      
+                          'findings_final_0814-portion1ita27round9_seed1940262766_size10000'
+                          'findings_final_0814-portion1ita29round18_seed-1653352491_size10000' ]
 
-    target_train_paths = ['findings_final_0814_seed-53154026_size50',
-                          'findings_final_0814_seed-1133351443_size400',
-                          'findings_final_0814_seed-1227021050_size300',
-                          'findings_final_0814_seed756906437_size200']
+
+    target_train_paths= ['findings_final_0814_seed-53154026_size50',
+                         'findings_final_0814_seed-1331694080_size100',
+                         'findings_final_0814_seed756906437_size200',
+                         'findings_final_0814_seed-1227021050_size300',
+                         'findings_final_0814_seed-1133351443_size400',
+                         'findings_final_0814_seed-972126700_size500',
+                         'findings_final_0814_seed238506806_size1000',
+                          'findings_final_0814_seed1033059257_size2000',
+                          'findings_final_0814_seed678668699_size3000',
+                          'findings_final_0814_seed-1872107095_size4000',
+                          'findings_final_0814_seed-190708218_size5000',
+                          'findings_final_0814_seed2132231585_size10000']
+    
     parser = argparse.ArgumentParser(description='PyTorch Domain Adaptation')
     parser.add_argument('-j', '--workers', default=0, type=int, metavar='N',
                         help='number of data loading workers (default: 4)')
@@ -291,12 +297,7 @@ if __name__ == '__main__':
     d_kl_dict['findings_final_0814-portion1ita27round9'] = 20
 
     seed_dict={}
-    # seed_dict['findings_final_0814_seed1591536269_size10000']=79280
-    # seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
-    # seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
-    # seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita21round14_seed1879396416_size10000']=14942
-    # seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
+
     files = os.listdir(learned_model_fold_loc)
     file_source = []
     for i in files:
