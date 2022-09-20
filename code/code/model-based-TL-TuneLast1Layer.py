@@ -296,6 +296,11 @@ if __name__ == '__main__':
 
 
     seed_dict={}
+    seed_dict['findings_final_0814-portion1ita06round14_seed2016863826_size10000']=43277
+    seed_dict['findings_final_0814-portion1ita13round20_seed1708886178_size10000']=79280
+    seed_dict['findings_final_0814-portion1ita16round14_seed1948253030_size10000']=14942
+    seed_dict['findings_final_0814-portion1ita27round9_seed1940262766_size10000']=14942
+    seed_dict['findings_final_0814-portion1ita29round18_seed-1653352491_size10000'] = 14942
 
     files = os.listdir(learned_model_fold_loc)
     file_source = []
