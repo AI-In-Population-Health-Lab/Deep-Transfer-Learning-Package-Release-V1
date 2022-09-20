@@ -127,9 +127,9 @@ def main(args: argparse.Namespace):
         validation_split)
 
     learned_tl_model_path = learned_model_fold_loc + args.source_train_path + "-" + args.target_train_path + "-" + str(
-        args.seed) + "-dannNoTargetLabel-newRun.pth"
+        args.seed) + "-dannNoTargetLabel.pth"
 
-    csvFilename = prob_fold_loc + "new_dann_noTargetLabel_model_prob_" + args.source_train_path + "_" + str(
+    csvFilename = prob_fold_loc + "dann_noTargetLabel_model_prob_" + args.source_train_path + "_" + str(
         args.seed) + ".csv"
 
     train_source_loader = DataLoader(source_train_dataset, batch_size=args.batch_size, shuffle=True, num_workers=args.workers, drop_last=True)
