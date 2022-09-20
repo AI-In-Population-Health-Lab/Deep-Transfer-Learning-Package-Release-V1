@@ -383,13 +383,6 @@ if __name__ == '__main__':
     args = parser.parse_args()
     # print(args)
 
-    # source_train_paths = getFileList(source_train_fold_loc)
-    # print(source_train_paths)
-
-    # target_train_paths = getFileList(target_train_fold_loc)
-    # print(target_train_paths)
-
-
     d_kl_dict = {}
     d_kl_dict['findings_final_0814'] = 0
     d_kl_dict['findings_final_0814-portion1ita06round14'] = 1
