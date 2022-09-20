@@ -117,27 +117,27 @@ In our experiments, due to the synthetic data being distributed in a balanced fa
 > ## Baseline Model <a name="BL"></a>  
 Based on the dataset used to train the model, we defined three baseline models (baseline model is required for MDTL from the next part). The corresponding codes for each baseline model are shown as below:   
  
-+ `learnSourceModel_v2.py` --using the source training dataset to train a model;
-+ `learnTargetModel_v2.py` --using the target training dataset to train a model;
-+ `learnCombineModel_v2.py` -- using both the source and target training datasets to train a model.
++ `learnSourceModel.py` --using the source training dataset to train a model;
++ `learnTargetModel.py` --using the target training dataset to train a model;
++ `learnCombineModel.py` -- using both the source and target training datasets to train a model.
 
 In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
 
 1. **BL_source**: use the source training dataset to train a model
 , obtain a trained model under the source setting, and get `AUROC` values of BL_source model under the setting;
 	```python
-	python learnSourceModel_v2.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
+	python learnSourceModel.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
 	```
 
 
 2. **BL_target**: use the target training dataset to train a model, obtain a trained model under the target setting, and get `AUROC` values of BL_target model under the setting;
 	```python
-	python learnTargetModel_v2.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
+	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
 3. **BL_combined**: use both the source and target training datasets to train a model, obtain a trained model under the combined setting, and get `AUROC` values of BL_combined model under the setting
 	```python
-	python learnCombineModel_v2.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
+	python learnCombineModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
 &nbsp;
