@@ -93,7 +93,7 @@ In the transfer learning scenarios, the source and target data can be recorded/p
 
 *  **Kullback-Leibler(KL) Divergence**      
 In this project, when the source and target data have the same variable dimension, we use Kullback-Leibler (KL) divergence to measure the distribution difference between the source and target settings. Because the main experiments are conducted on synthetic datasets, we just release these datasets in our */data/synthetic_data_v2/* directory.       
- In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distribution.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distributions.py`.)
+ In our code, we use `parse_model.py` to generate probability tables of different datasets, use `distributions.py` to calculate the KL value between probability tables derived from different data sources. (Note: make sure the existence of probability tables before the calculation of KL value between them. Run `parse_model.py`  before running `distributions.py`.)
 
 
 * **Zero Padding**   
