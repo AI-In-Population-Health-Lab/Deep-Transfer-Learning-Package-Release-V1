@@ -104,7 +104,7 @@ After this recalibration of the data, we use all of the source data for model tr
 
 
 * **Data Splitting**  
-During experiments, the dataset needs to be split into different portions for different purposes--training, testing, validation. In `data_procesing.py`, the associated methods are defined to split the dataset.     
+During experiments, the dataset needs to be split into different portions for different purposes--training, testing, validation. In `data_processing.py`, the associated methods are defined to split the dataset.     
 
 In our experiments, due to the synthetic data being distributed in a balanced fashion, the dataset is split in by rows. However, if your dataset is skewed, you might need to change the methods of data splitting into stratiﬁed splitting ones, which are also included in `data_procesing.py`. 
 
