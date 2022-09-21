@@ -124,18 +124,18 @@ Based on the dataset used to train the model, we defined three baseline models (
 In our code, we have pre-defined some hyperparameters, like  *epochs=10, batch_size=32, lr=0.01, momentum=0.9, weight_decay=0.001, print_freq=100, seed=None, trade_off=1.0, iters_per_epoch=313*, via `argparse`. You can directly change those hyperparameters by using [`argparse`](https://docs.python.org/3/library/argparse.html) through the command line.
 
 1. **BL_source**: use the source training dataset to train a model
-, obtain a trained model under the source setting, and get `AUROC` values of BL_source model under the setting;
+, obtain a trained model under the source setting. All of output, including `Accuracy` and `AUC` information, is stored in “results” folder;
 	```python
 	python learnSourceModel.py --source=findings_final_0814_seed1591536269_size10000 --seed=14942
 	```
 
 
-2. **BL_target**: use the target training dataset to train a model, obtain a trained model under the target setting, and get `AUROC` values of BL_target model under the setting;
+2. **BL_target**: use the target training dataset to train a model, obtain a trained model under the target setting. All of output, including `Accuracy` and `AUC` information, is stored in “results” folder;
 	```python
 	python learnTargetModel.py --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
 
-3. **BL_combined**: use both the source and target training datasets to train a model, obtain a trained model under the combined setting, and get `AUROC` values of BL_combined model under the setting
+3. **BL_combined**: use both the source and target training datasets to train a model, obtain a trained model under the combined setting. All of output, including `Accuracy` and `AUC` information, is stored in “results” folder;
 	```python
 	python learnCombineModel.py --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=14942
 	```
@@ -152,7 +152,7 @@ For Domain Adversarial Neural Networks(DANN), the *Loss function* is defined as 
 ![image](https://user-images.githubusercontent.com/39432361/152067006-54cb0fef-d557-47f0-81eb-de2f3ddc39d4.png)
 
 
-In our code, we use `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`, (the first two files are for unsupervised DANN),`dann_synthetic_withTargetLabel.py`, `dann_synthetic_withTargetLabel_outputAUC.py` (the last two files are for supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
+In our code, we use `dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py`(for unsupervised DANN),`dann_synthetic_withTargetLabel_outputAUC.py` (supervised DANN) to train and evaluate DDTL models. Viewing our work as a whole picture, models are fed by source and target data files (.cvs) in ***synthetic_data_v2*** directory. After training, trained models will be stored. The program returns and saves a .txt file recording information of the source, target data, accuracy, AUC of models during training.
 
 For the network structure, it is defined in `feedforward.py`. If you want to modify the network structure used in the DANN model, you can modify the corresponding part of that .py file.
 
@@ -163,12 +163,12 @@ Related code:
 
 In the unsupervised DANN, the Label Classifier is only trained by source training data (target training data is not to be used for the training of the Label Classifier). Both target and source data are used to train the Feature Generator and the Domain Classifier.
 
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `Accuracy` and `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv),, specified seed(1), specified epoch(1)
 python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
 
-#run program using default hyperparameters---calculate AUC values from all of the models derived from different combinations of target and source dataset
+#run program using default hyperparameters---calculate accuracy and AUC values from all of the models derived from different combinations of target and source dataset
 python dann_synthetic_noTargetLabel_noTargetVal_outputAUC.py
 
 ``` 
@@ -181,12 +181,12 @@ Related code:
  In the supervised DANN, both source and target training data is used in training the Label Classifier. Both target and source data are used in training the Feature Generator and Domain Classifier. 
 
 
-Run the following code to return the corresponding `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
+Run the following code to return the corresponding `Accuracy` and `AUROC` for later performance in the comparison section ---all of the input data (.csv files of source and target data) are declared in the `if __name__ == '__main__'` module.
 ```python 
 #run program with specified learning rate (0.02), specified trade-off(3),specified source dataset(findings_final_0814_seed1591536269_size10000.csv), specified target dataset(indings_final_0814_seed-53154026_size50.csv), specified seed(1), specified epoch(1) 
 python dann_synthetic_withTargetLabel_outputAUC.py --lr=0.02 --trade-off=3 --source=findings_final_0814_seed1591536269_size10000 --target=findings_final_0814_seed-53154026_size50 --seed=1 --epoch=1
 
-#run program using default hyperparameters---calculate AUC values from all of the models derived from different
+#run program using default hyperparameters---calculate accuracy and AUC values from all of the models derived from different
 python dann_synthetic_withTargetLabel_outputAUC.py`
 
 ``` 
